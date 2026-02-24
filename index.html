@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christian Cattaneo — Builder</title>
+  <meta name="description" content="Full-stack engineer and AI builder. Shipping monetized products at the intersection of AI agents, developer tools, and growth automation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07080d;
+      --surface: #0f1117;
+      --surface-2: #161820;
+      --border: #1e2030;
+      --border-2: #252840;
+      --ink: #f0f0f5;
+      --ink-2: #9095b0;
+      --ink-3: #555a7a;
+      --accent: #f97316;
+      --accent-2: #fb923c;
+      --cyan: #22d3ee;
+      --purple: #a78bfa;
+      --green: #4ade80;
+      --radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Aurora ── */
+    .aurora {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(140px); will-change: transform; opacity: 0.55;
+    }
+    .b1 { width: 700px; height: 700px;
+          background: radial-gradient(circle, #f9731625, #f9731605);
+          top: -220px; left: -150px; animation: d1 22s ease-in-out infinite; }
+    .b2 { width: 600px; height: 600px;
+          background: radial-gradient(circle, #a78bfa18, #818cf808);
+          top: -100px; right: -120px; animation: d2 28s ease-in-out infinite; }
+    .b3 { width: 500px; height: 500px;
+          background: radial-gradient(circle, #22d3ee14, #06b6d408);
+          bottom: 10%; left: 15%; animation: d3 34s ease-in-out infinite; }
+    .b4 { width: 450px; height: 450px;
+          background: radial-gradient(circle, #f9731612, #ea580c06);
+          bottom: 25%; right: 5%; animation: d4 24s ease-in-out infinite; }
+
+    @keyframes d1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(80px,60px)} 66%{transform:translate(-40px,100px)} }
+    @keyframes d2 { 0%,100%{transform:translate(0,0)} 40%{transform:translate(-70px,80px)} 75%{transform:translate(50px,-60px)} }
+    @keyframes d3 { 0%,100%{transform:translate(0,0)} 30%{transform:translate(60px,-80px)} 65%{transform:translate(-80px,40px)} }
+    @keyframes d4 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-90px,-70px)} 80%{transform:translate(40px,80px)} }
+
+    /* ── Noise ── */
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    nav, main, footer { position: relative; z-index: 1; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      background: rgba(7,8,13,0.7);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo {
+      font-size: 15px; font-weight: 600; letter-spacing: -0.3px; color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 13.5px; color: var(--ink-2); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      font-size: 12.5px; font-weight: 600; color: var(--accent);
+      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
+      padding: 6px 16px; border-radius: 8px; text-decoration: none;
+      transition: background .2s, border-color .2s;
+    }
+    .nav-cta:hover { background: rgba(249,115,22,.18); border-color: rgba(249,115,22,.5); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 900px; margin: 0 auto;
+      padding: 96px 40px 72px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--accent); background: rgba(249,115,22,.08);
+      border: 1px solid rgba(249,115,22,.2);
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
+    }
+    .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 1.8s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 76px); font-weight: 700;
+      line-height: 1.06; letter-spacing: -2.5px;
+      background: linear-gradient(135deg, #f0f0f5 20%, #9095b0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 18px; color: var(--ink-2); line-height: 1.6;
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-bottom: 44px;
+    }
+    .badge {
+      font-size: 12px; font-weight: 500; padding: 5px 13px;
+      border-radius: 20px; border: 1px solid var(--border-2);
+      color: var(--ink-2); background: var(--surface);
+    }
+    .hero-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .hl-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13.5px; font-weight: 600; padding: 10px 22px;
+      border-radius: 10px; text-decoration: none; transition: all .2s;
+    }
+    .hl-primary {
+      background: var(--accent); color: #fff;
+    }
+    .hl-primary:hover { background: var(--accent-2); }
+    .hl-secondary {
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--border-2);
+    }
+    .hl-secondary:hover { border-color: var(--border-2); background: var(--surface-2); }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex; justify-content: center; gap: 0;
+      max-width: 700px; margin: 0 auto 80px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .stat {
+      flex: 1; padding: 22px 16px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-val {
+      font-size: 28px; font-weight: 700; letter-spacing: -1px;
+      color: var(--ink); display: block; margin-bottom: 4px;
+    }
+    .stat-val span { color: var(--accent); }
+    .stat-label { font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ── Section ── */
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px 100px; }
+    .sec-header {
+      display: flex; align-items: baseline; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .sec-title {
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--ink-2);
+    }
+    .sec-line {
+      flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Project Grid ── */
+    .grid {
+      display: grid; gap: 14px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 22px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(18px);
+      animation: rise .5s ease forwards;
+    }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+    .card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    }
+    .card::before {
+      content: ''; position: absolute; inset: 0; opacity: 0;
+      background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(249,115,22,.04), transparent 60%);
+      transition: opacity .4s;
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* Featured card */
+    .card-feat {
+      border-color: rgba(249,115,22,.25);
+      background: linear-gradient(135deg, rgba(249,115,22,.06) 0%, var(--surface) 60%);
+    }
+    .card-feat::after {
+      content: '★ Featured';
+      position: absolute; top: 14px; right: 14px;
+      font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      color: var(--accent); background: rgba(249,115,22,.12);
+      border: 1px solid rgba(249,115,22,.25); padding: 2px 8px; border-radius: 20px;
+    }
+
+    .card-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+      background: var(--surface-2); border: 1px solid var(--border);
+    }
+    .card-head { display: flex; align-items: center; gap: 12px; }
+    .card-name {
+      font-size: 15.5px; font-weight: 700; color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+    .card-domain {
+      font-size: 11px; color: var(--ink-3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .card-desc {
+      font-size: 13px; color: var(--ink-2); line-height: 1.55;
+      flex: 1;
+    }
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+    .tag {
+      font-size: 10.5px; font-weight: 600; padding: 2px 9px;
+      border-radius: 20px; border: 1px solid var(--border);
+      color: var(--ink-3);
+    }
+    .tag-orange { border-color: rgba(249,115,22,.3); color: #fb923c; background: rgba(249,115,22,.07); }
+    .tag-cyan { border-color: rgba(34,211,238,.25); color: #22d3ee; background: rgba(34,211,238,.06); }
+    .tag-purple { border-color: rgba(167,139,250,.25); color: #a78bfa; background: rgba(167,139,250,.06); }
+    .tag-green { border-color: rgba(74,222,128,.25); color: #4ade80; background: rgba(74,222,128,.06); }
+    .tag-red { border-color: rgba(248,113,113,.25); color: #f87171; background: rgba(248,113,113,.06); }
+
+    .card-footer-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 4px;
+    }
+    .card-status {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: var(--ink-3);
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .status-live { background: #4ade80; box-shadow: 0 0 6px #4ade8088; animation: pulse-g 2s ease infinite; }
+    @keyframes pulse-g { 0%,100%{opacity:1} 50%{opacity:.5} }
+    .status-wip { background: #fbbf24; }
+    .status-oss { background: #60a5fa; }
+
+    .card-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600; color: var(--ink-2);
+      text-decoration: none; transition: color .2s;
+    }
+    .card-link:hover { color: var(--accent); }
+    .card-link svg { width: 12px; height: 12px; }
+
+    /* Wide card (spans 2) */
+    .card-wide { grid-column: span 2; }
+    @media (max-width: 900px) {
+      .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+      .card-wide { grid-column: span 1; }
+    }
+    @media (max-width: 600px) {
+      .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px 48px; }
+      .wrap { padding: 0 20px 60px; }
+      .stats { flex-wrap: wrap; }
+      .stat { min-width: 50%; }
+    }
+
+    /* ── Spacer between sections ── */
+    .sec-gap { margin-bottom: 56px; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-left { font-size: 13px; color: var(--ink-3); }
+    .footer-left strong { color: var(--ink-2); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12.5px; color: var(--ink-3); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--ink-2); }
+
+    /* Staggered animation delays */
+    .card:nth-child(1){animation-delay:.05s} .card:nth-child(2){animation-delay:.1s}
+    .card:nth-child(3){animation-delay:.15s} .card:nth-child(4){animation-delay:.2s}
+    .card:nth-child(5){animation-delay:.25s} .card:nth-child(6){animation-delay:.3s}
+    .card:nth-child(7){animation-delay:.35s} .card:nth-child(8){animation-delay:.4s}
+  </style>
+</head>
+<body>
+  <!-- Aurora -->
+  <div class="aurora">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="/">Christian<span>.</span>ai</a>
+    <div class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#tools">Tools</a>
+      <a href="#security">Security</a>
+      <a href="#finance">Finance</a>
+    </div>
+    <a class="nav-cta" href="https://maxxer.ai" target="_blank">Maxxer →</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow"><span class="hero-dot"></span> Full-Stack AI Engineer · Austin TX</div>
+    <h1>Building at the<br><em>frontier of AI</em></h1>
+    <p class="hero-sub">
+      Shipping monetized products where AI agents, developer tools, and growth automation collide.
+      Fast iteration, real revenue, zero fluff.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">AI Agents</span>
+      <span class="badge">Developer Tools</span>
+      <span class="badge">Growth Automation</span>
+      <span class="badge">Security</span>
+      <span class="badge">iOS / Mobile</span>
+      <span class="badge">MCP / OpenClaw</span>
+    </div>
+    <div class="hero-links">
+      <a class="hl-btn hl-primary" href="https://maxxer.ai" target="_blank">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        Latest Project
+      </a>
+      <a class="hl-btn hl-secondary" href="https://github.com/christiancattaneo" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a class="hl-btn hl-secondary" href="https://x.com/christiancattaneo" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        @christiancattaneo
+      </a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats wrap" style="padding-bottom:0; max-width:800px; margin-bottom:72px;">
+    <div class="stat">
+      <span class="stat-val">17<span>+</span></span>
+      <div class="stat-label">Projects Shipped</div>
+    </div>
+    <div class="stat">
+      <span class="stat-val">5<span>+</span></span>
+      <div class="stat-label">Live Domains</div>
+    </div>
+    <div class="stat">
+      <span class="stat-val">$<span>1M</span></span>
+      <div class="stat-label">ARR Tracked</div>
+    </div>
+    <div class="stat">
+      <span class="stat-val">AI<span>-first</span></span>
+      <div class="stat-label">Stack</div>
+    </div>
+  </div>
+
+  <main>
+    <!-- ── AI Products ── -->
+    <div class="wrap" id="products">
+      <div class="sec-header">
+        <span class="sec-title">AI Products</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card card-feat card-wide" style="animation-delay:.05s">
+          <div class="card-head">
+            <div class="card-icon">🚀</div>
+            <div>
+              <div class="card-name">Maxxer</div>
+              <div class="card-domain">maxxer.ai</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            The AI growth layer. 14 fully-automated modules — lead research, outreach, content engine, SEO, competitive intel, GEO, ad intelligence, and more. Your entire growth stack, on autopilot.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-orange">AI Automation</span>
+            <span class="tag tag-cyan">Growth</span>
+            <span class="tag tag-orange">Lead Gen</span>
+            <span class="tag">SaaS</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status">
+              <span class="status-dot status-live"></span> Live
+            </div>
+            <a class="card-link" href="https://maxxer.ai" target="_blank">
+              Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.1s">
+          <div class="card-head">
+            <div class="card-icon">🎓</div>
+            <div>
+              <div class="card-name">Maxxer Academy</div>
+              <div class="card-domain">maxxer.academy</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Curated agent-ready growth stack for AI founders. 30 tools across 9 categories — ClawHub skills, MCP servers, and direct APIs your AI can actually operate.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-orange">Agent-Ready</span>
+            <span class="tag tag-cyan">MCP</span>
+            <span class="tag">Directory</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://maxxer.academy" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.15s">
+          <div class="card-head">
+            <div class="card-icon">🤖</div>
+            <div>
+              <div class="card-name">CEO</div>
+              <div class="card-domain">Claw Engine Optimization</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Optimize your product for AI agent discovery — beyond SEO and GEO. llms.txt, MCP endpoints, Capability Schema, A2A protocol, and Agent Analytics.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-purple">OpenClaw</span>
+            <span class="tag tag-cyan">MCP</span>
+            <span class="tag">A2A</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-wip"></span> Beta</div>
+            <a class="card-link" href="https://ceo-plum-ten.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.2s">
+          <div class="card-head">
+            <div class="card-icon">👗</div>
+            <div>
+              <div class="card-name">Colette</div>
+              <div class="card-domain">colette.fashion</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            AI-powered fashion iOS app. Virtual try-on, curated style collections, AI wardrobe curation, and social shopping — built for the next generation of fashion discovery.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-orange">iOS</span>
+            <span class="tag tag-purple">AI Vision</span>
+            <span class="tag">Fashion</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://colette.fashion" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.25s">
+          <div class="card-head">
+            <div class="card-icon">📊</div>
+            <div>
+              <div class="card-name">Midas MCP</div>
+              <div class="card-domain">midasmcp.com</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            AI-powered development intelligence platform. MCP server with interactive TUI and dashboard — real-time code insights, health monitoring, and agent-driven analysis.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-cyan">MCP</span>
+            <span class="tag tag-green">DevOps</span>
+            <span class="tag">CLI</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://midasmcp.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.3s">
+          <div class="card-head">
+            <div class="card-icon">⚡</div>
+            <div>
+              <div class="card-name">InProd</div>
+              <div class="card-domain">inprod.ai</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Production-ready AI infrastructure. Ship AI-powered features with confidence — deployment tooling, monitoring, and infrastructure for serious AI applications.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-orange">AI Infra</span>
+            <span class="tag">Production</span>
+            <span class="tag">Next.js</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://inprod.ai" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Developer Tools ── -->
+    <div class="wrap sec-gap" id="tools">
+      <div class="sec-header">
+        <span class="sec-title">Developer Tools &amp; OSS</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card card-feat" style="animation-delay:.05s">
+          <div class="card-head">
+            <div class="card-icon">🔑</div>
+            <div>
+              <div class="card-name">ipeaky</div>
+              <div class="card-domain">clawhub.com/ipeaky</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Secure API key management for AI agents. Keys never touch chat history, command args, or logs — ever. Published to ClawHub v3.1.0 with CI and 36 tests.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-purple">OpenClaw</span>
+            <span class="tag tag-green">Security</span>
+            <span class="tag tag-cyan">ClawHub Skill</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
+            <a class="card-link" href="https://github.com/christiancattaneo/ipeaky" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card card-feat" style="animation-delay:.1s">
+          <div class="card-head">
+            <div class="card-icon">🔨</div>
+            <div>
+              <div class="card-name">wreckit</div>
+              <div class="card-domain">wreckit-ralph.vercel.app</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Bulletproof AI code verification. The agent IS the engine. Six gates: slop scan, type check, mutation testing, property tests, proof bundle, and swarm verification.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-red">Verification</span>
+            <span class="tag tag-orange">AI Agent</span>
+            <span class="tag">Testing</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
+            <a class="card-link" href="https://wreckit-ralph.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.15s">
+          <div class="card-head">
+            <div class="card-icon">📡</div>
+            <div>
+              <div class="card-name">Merlyn</div>
+              <div class="card-domain">merlyn-mcp.vercel.app</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Local dev coach with MCP server and interactive TUI. AI-powered code analysis, real-time health monitoring, and development intelligence — zero cloud required.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-cyan">MCP</span>
+            <span class="tag">CLI / TUI</span>
+            <span class="tag tag-green">Local AI</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
+            <a class="card-link" href="https://github.com/christiancattaneo/merlyn" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.2s">
+          <div class="card-head">
+            <div class="card-icon">📏</div>
+            <div>
+              <div class="card-name">Slopometer</div>
+              <div class="card-domain">slopometer.com</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            AI-powered code slop scanner. Detects your tech stack, finds AI-generated code issues, and generates actual fixes you can apply. Ship with confidence.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-orange">Code Quality</span>
+            <span class="tag">Static Analysis</span>
+            <span class="tag">AI</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://slopometer.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.25s">
+          <div class="card-head">
+            <div class="card-icon">🎯</div>
+            <div>
+              <div class="card-name">Chiron</div>
+              <div class="card-domain">chiron.academy</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            AI-powered coaching and education platform. Personalized learning paths, AI mentorship, and knowledge assessment — next-generation education infrastructure.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-purple">AI Coach</span>
+            <span class="tag">Education</span>
+            <span class="tag">Next.js</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://chiron.academy" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.3s">
+          <div class="card-head">
+            <div class="card-icon">🌐</div>
+            <div>
+              <div class="card-name">Crowbar</div>
+              <div class="card-domain">crowbar.sh</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Autonomous web penetration testing. Give it a URL, it finds everything exploitable — no manual configuration, no false positives, actionable results every time.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-red">PenTest</span>
+            <span class="tag">Autonomous</span>
+            <span class="tag tag-orange">Security</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://crowbar.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Security ── -->
+    <div class="wrap sec-gap" id="security">
+      <div class="sec-header">
+        <span class="sec-title">Security</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card card-wide" style="animation-delay:.05s">
+          <div class="card-head">
+            <div class="card-icon">🍍</div>
+            <div>
+              <div class="card-name">Pinata Security</div>
+              <div class="card-domain">pinata.sh</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            AI-powered security scanner that finds vulnerabilities hiding in your codebase. 47 detection categories across security, data integrity, concurrency, and performance. Context-aware scanning adjusts rules based on your project type.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-red">Security</span>
+            <span class="tag tag-orange">SAST</span>
+            <span class="tag">47 Categories</span>
+            <span class="tag tag-purple">AI</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://pinata.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.1s">
+          <div class="card-head">
+            <div class="card-icon">🦫</div>
+            <div>
+              <div class="card-name">Whackamole</div>
+              <div class="card-domain">whackamole.sh</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Automated penetration testing with verified fixes. Attacks your app, proves vulnerabilities are exploitable, generates fixes, and verifies they actually work.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-red">PenTest</span>
+            <span class="tag tag-green">Auto-Fix</span>
+            <span class="tag">Verified</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
+            <a class="card-link" href="https://whackamole.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Finance & Research ── -->
+    <div class="wrap sec-gap" id="finance">
+      <div class="sec-header">
+        <span class="sec-title">Finance &amp; Research</span>
+        <div class="sec-line"></div>
+      </div>
+      <div class="grid grid-3">
+
+        <div class="card card-wide" style="animation-delay:.05s">
+          <div class="card-head">
+            <div class="card-icon">📈</div>
+            <div>
+              <div class="card-name">Amalek</div>
+              <div class="card-domain">github.com/christiancattaneo/amalek</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            News-sentiment alpha signal agent for mechanical trading bots. Polymarket integration — scanner, weather pricer, and trader. Generates trading signals from real-time news sentiment analysis. Adversarial-tested: 6/6 attack vectors survived.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-green">Trading</span>
+            <span class="tag tag-orange">Sentiment AI</span>
+            <span class="tag">Polymarket</span>
+            <span class="tag">Python</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
+            <a class="card-link" href="https://github.com/christiancattaneo/amalek" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.1s">
+          <div class="card-head">
+            <div class="card-icon">🥩</div>
+            <div>
+              <div class="card-name">Primal Diet</div>
+              <div class="card-domain">primaldiet reference</div>
+            </div>
+          </div>
+          <div class="card-desc">
+            Comprehensive primal diet reference system. Evidence-based nutritional data, food scoring, and meal planning tools for ancestral health optimization.
+          </div>
+          <div class="card-tags">
+            <span class="tag tag-green">Health</span>
+            <span class="tag">Nutrition</span>
+            <span class="tag">Reference</span>
+          </div>
+          <div class="card-footer-row">
+            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
+            <a class="card-link" href="https://github.com/christiancattaneo/primaldiet" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">
+      <strong>Christian Cattaneo</strong> · Full-Stack AI Engineer · Austin, TX
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
+      <a href="https://maxxer.ai" target="_blank">Maxxer</a>
+      <a href="https://maxxer.academy" target="_blank">Academy</a>
+      <a href="https://x.com/christiancattaneo" target="_blank">X / Twitter</a>
+    </div>
+  </footer>
+
+  <script>
+  // Mouse-reactive aurora parallax
+  (function() {
+    const blobs = document.querySelectorAll('.blob');
+    const f = [.012, .008, .016, .01];
+    let mx = innerWidth/2, my = innerHeight/2;
+    const c = blobs.map(() => ({x:0, y:0}));
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function tick() {
+      blobs.forEach((b, i) => {
+        const tx = (mx - innerWidth/2) * f[i], ty = (my - innerHeight/2) * f[i];
+        c[i].x += (tx - c[i].x) * .04; c[i].y += (ty - c[i].y) * .04;
+        b.style.transform = `translate(${c[i].x}px,${c[i].y}px)`;
+      });
+      requestAnimationFrame(tick);
+    })();
+  })();
+
+  // Card mouse-reactive glow
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+
+  // Scroll reveal
+  (function() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animationPlayState = 'running';
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.animationPlayState = 'paused';
+      io.observe(c);
+    });
+  })();
+  </script>
+</body>
+</html>
