@@ -379,7 +379,7 @@
       <a href="#products">Products</a>
       <a href="#tools">Tools</a>
       <a href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
-      <a href="https://x.com/christiancattaneo" target="_blank" class="nav-cta">Follow on X →</a>
+      <a href="https://x.com/cattaaaneo" target="_blank" class="nav-cta">Follow on X →</a>
     </div>
   </nav>
 
@@ -401,7 +401,7 @@
     <div class="hero-btns">
       <a class="btn btn-gold" href="https://maxxer.ai" target="_blank">Maxxer.ai →</a>
       <a class="btn btn-outline" href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
-      <a class="btn btn-outline" href="https://x.com/christiancattaneo" target="_blank">X / Twitter</a>
+      <a class="btn btn-outline" href="https://x.com/cattaaaneo" target="_blank">X / Twitter</a>
     </div>
   </div>
 
@@ -763,7 +763,7 @@
       <a href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
       <a href="https://maxxer.ai" target="_blank">Maxxer</a>
       <a href="https://maxxer.academy" target="_blank">Academy</a>
-      <a href="https://x.com/christiancattaneo" target="_blank">X / Twitter</a>
+      <a href="https://x.com/cattaaaneo" target="_blank">X / Twitter</a>
     </div>
   </footer>
 
@@ -840,25 +840,7 @@
       group.add(line);
     }
 
-    // ── h0-STYLE LINES: 16 breathing arcs (variable tube radius) ─────────
-    // convergence.sh h0: speed=0.3, 40pts, 0.6PI sweep, organic radius
-    const lineColorsA  = [0xd97706, 0xc47f0a, 0xf5be3a];
-    const linesA = [], lineDataA = [];
-    for (let i = 0; i < 16; i++) {
-      const u = i / 16 * Math.PI * 2;
-      lineDataA.push({ u, speed: 0.8 });
-      const pos = new Float32Array(120); // 40 pts × 3
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const mat = new THREE.LineBasicMaterial({
-        color: lineColorsA[i % 3],
-        transparent: true,
-        opacity: 0.65,
-      });
-      const line = new THREE.Line(geo, mat);
-      linesA.push(line);
-      group.add(line);
-    }
+    const linesA = [], lineDataA = []; // h0 lines removed (kept hK only)
 
     // ── 6000 PARTICLES (hJ equivalent) ───────────────────────────────────
     const pCount  = 6000;
@@ -913,14 +895,18 @@
     let dragging = false;
     let prevX = 0, prevY = 0;
 
-    function onPointerDown(e) {
+    // pointerdown on canvas — start drag + capture pointer so
+    // pointermove/pointerup fire even outside canvas (no pointerleave issue on mobile)
+    canvas.addEventListener('pointerdown', e => {
       dragging = true;
       prevX = e.clientX; prevY = e.clientY;
-      lastQuat.identity(); // reset inertia on new grab
+      lastQuat.identity();
       canvas.style.cursor = 'grabbing';
-      canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
-    }
-    function onPointerMove(e) {
+      try { canvas.setPointerCapture(e.pointerId); } catch(_) {}
+    });
+
+    // pointermove on WINDOW — works on desktop + mobile after capture
+    window.addEventListener('pointermove', e => {
       if (!dragging) return;
       const dx = e.clientX - prevX;
       const dy = e.clientY - prevY;
@@ -928,29 +914,16 @@
       const qX = new THREE.Quaternion().setFromAxisAngle(xAxis, 0.005 * dy);
       const delta = qY.multiply(qX);
       group.quaternion.premultiply(delta);
-      lastQuat.copy(delta); // remember for inertia
+      lastQuat.copy(delta);
       prevX = e.clientX; prevY = e.clientY;
-    }
-    function onPointerUp() {
+    });
+
+    // pointerup on WINDOW — catches release anywhere on screen
+    window.addEventListener('pointerup', () => {
+      if (!dragging) return;
       dragging = false;
       canvas.style.cursor = 'grab';
-    }
-
-    canvas.addEventListener('pointerdown',  onPointerDown);
-    canvas.addEventListener('pointermove',  onPointerMove);
-    canvas.addEventListener('pointerup',    onPointerUp);
-    canvas.addEventListener('pointerleave', onPointerUp); // exact convergence.sh
-
-    // Touch support (mobile)
-    canvas.addEventListener('touchstart', e => {
-      const t = e.touches[0];
-      onPointerDown({ clientX: t.clientX, clientY: t.clientY, pointerId: null });
-    }, { passive: true });
-    canvas.addEventListener('touchmove', e => {
-      const t = e.touches[0];
-      onPointerMove({ clientX: t.clientX, clientY: t.clientY });
-    }, { passive: true });
-    canvas.addEventListener('touchend', onPointerUp);
+    });
 
     resize();
     window.addEventListener('resize', resize);
@@ -979,23 +952,6 @@
           const autoQ = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.1 * dt);
           group.quaternion.premultiply(autoQ);
         }
-      }
-
-      // ── Update h0-style lines: 16 lines, variable-radius "breathing" arcs ──
-      for (let i = 0; i < linesA.length; i++) {
-        const { u, speed } = lineDataA[i];
-        const pos  = linesA[i].geometry.attributes.position.array;
-        const nPts = pos.length / 3;
-        for (let j = 0; j < nPts; j++) {
-          const v = j / nPts * Math.PI * 0.6; // h0 sweep: 0.6*PI
-          const phi = elapsed * speed + v;
-          // Variable tube radius (h0 formula — organic breathing)
-          const s = 0.8 + (0.4 + 0.6 * Math.abs(Math.sin(phi))) * Math.pow(Math.abs(Math.sin(phi)), 0.5);
-          pos[3*j]   = (2 + s * Math.cos(phi)) * Math.cos(u);
-          pos[3*j+1] = s * Math.sin(phi);
-          pos[3*j+2] = (2 + s * Math.cos(phi)) * Math.sin(u);
-        }
-        linesA[i].geometry.attributes.position.needsUpdate = true;
       }
 
       // ── Update hK-style lines: 24 fixed-radius arcs ──
