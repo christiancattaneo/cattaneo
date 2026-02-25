@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Christian Cattaneo — Builder</title>
-  <meta name="description" content="Full-stack engineer and AI builder. Shipping monetized products at the intersection of AI agents, developer tools, and growth automation.">
+  <meta name="description" content="Full-stack engineer and AI builder. Shipping products at the intersection of AI agents, developer tools, and growth automation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,21 +12,24 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #020617;
-      --bg2:     #0a0f1e;
-      --surface: rgba(15, 23, 42, 0.65);
-      --border:  rgba(96, 165, 250, 0.10);
-      --border2: rgba(0, 240, 255, 0.25);
-      --ink:     #e2e8f0;
-      --ink-2:   #94a3b8;
-      --ink-3:   #475569;
-      --neon:    #00f0ff;
-      --neon2:   #a855f7;
-      --neon3:   #f472b6;
-      --green:   #4ade80;
-      --orange:  #fb923c;
-      --red:     #f87171;
-      --radius:  12px;
+      --bg:      #fafaf7;
+      --bg2:     #f5f3ee;
+      --surface: #ffffff;
+      --border:  rgba(180,140,60,0.15);
+      --border2: rgba(217,119,6,0.35);
+      --ink:     #110d00;
+      --ink-2:   #5c440a;
+      --ink-3:   #a07830;
+      --gold:    #c47f0a;
+      --gold2:   #e8950e;
+      --gold3:   #f5be3a;
+      --sun:     #fde68a;
+      --ember:   #c2410c;
+      --green:   #15803d;
+      --red:     #b91c1c;
+      --radius:  13px;
+      --shadow:  0 1px 3px rgba(160,100,10,.06), 0 4px 16px rgba(160,100,10,.05);
+      --shadow-md: 0 4px 24px rgba(160,100,10,.10);
     }
 
     html { scroll-behavior: smooth; }
@@ -38,32 +41,15 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── ANIMATED GRID BACKGROUND ── */
+    /* ── SUBTLE WARM TEXTURE ── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0,240,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,240,255,0.035) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridDrift 12s linear infinite;
-      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%);
-    }
-    @keyframes gridDrift {
-      0%   { background-position: 0 0; }
-      100% { background-position: 0 60px; }
-    }
-
-    /* Scanline overlay */
-    body::after {
-      content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 2px,
-        rgba(0, 0, 0, 0.04) 2px, rgba(0, 0, 0, 0.04) 4px
-      );
+      background:
+        radial-gradient(ellipse 100% 60% at 50% 0%, rgba(253,230,138,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(245,158,11,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(234,88,12,.05) 0%, transparent 60%);
     }
 
     nav, main, footer, .hero, .stats { position: relative; z-index: 1; }
@@ -71,103 +57,111 @@
     /* ── NAV ── */
     nav {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px; height: 60px;
+      padding: 0 40px; height: 62px;
       border-bottom: 1px solid var(--border);
       position: sticky; top: 0; z-index: 100;
-      background: rgba(2, 6, 23, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     .nav-brand {
-      font-weight: 700; font-size: 15px; color: var(--ink);
-      letter-spacing: -.3px;
-      text-shadow: 0 0 20px rgba(0,240,255,0.3);
+      font-weight: 700; font-size: 15px;
+      color: var(--ink); letter-spacing: -.3px;
     }
     .nav-links { display: flex; align-items: center; gap: 6px; }
     .nav-links a {
       font-size: 13px; font-weight: 500; color: var(--ink-2);
-      text-decoration: none; padding: 5px 12px; border-radius: 7px;
+      text-decoration: none; padding: 5px 12px; border-radius: 8px;
       transition: color .15s, background .15s;
     }
-    .nav-links a:hover { color: var(--neon); background: rgba(0,240,255,0.06); }
+    .nav-links a:hover { color: var(--gold); background: rgba(217,119,6,.06); }
     .nav-cta {
-      background: rgba(0,240,255,0.1) !important;
-      color: var(--neon) !important;
-      border: 1px solid rgba(0,240,255,0.3) !important;
+      background: var(--ink) !important; color: var(--bg) !important;
     }
-    .nav-cta:hover {
-      background: rgba(0,240,255,0.18) !important;
-      box-shadow: 0 0 16px rgba(0,240,255,0.2) !important;
-    }
+    .nav-cta:hover { background: #2a1e00 !important; }
 
     /* ── HERO ── */
     .hero {
-      max-width: 760px; margin: 0 auto;
-      padding: 64px 24px 40px;
+      max-width: 780px; margin: 0 auto;
+      padding: 52px 24px 32px;
       text-align: center;
     }
+
+    /* Torus canvas + solar corona */
     .canvas-wrap {
-      width: 100%; max-width: 420px;
-      margin: 0 auto 36px;
+      width: 100%; max-width: 460px;
+      margin: 0 auto 32px;
       position: relative;
     }
-    .canvas-wrap::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,240,255,0.10) 0%, rgba(168,85,247,0.08) 50%, transparent 80%);
-      filter: blur(20px); z-index: 0;
+    .solar-corona {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 340px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse,
+        rgba(251,191,36,.28) 0%,
+        rgba(245,158,11,.14) 35%,
+        rgba(234,88,12,.05) 65%,
+        transparent 80%);
+      filter: blur(28px);
+      animation: solarPulse 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes solarPulse {
+      0%,100% { opacity:.75; transform:translate(-50%,-50%) scale(1); }
+      50%      { opacity:1;   transform:translate(-50%,-50%) scale(1.12); }
     }
     #torus-canvas {
-      width: 100%; height: 340px;
+      width: 100%; height: 320px;
       display: block; position: relative; z-index: 1;
       cursor: grab;
     }
     #torus-canvas:active { cursor: grabbing; }
     @media (max-width: 480px) { #torus-canvas { height: 220px; } }
 
-    .hero-badge {
+    .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(0,240,255,0.07);
-      border: 1px solid rgba(0,240,255,0.25);
-      color: var(--neon); font-size: 12px; font-weight: 600;
+      color: var(--gold); font-size: 11.5px; font-weight: 700;
       padding: 5px 14px; border-radius: 100px;
-      margin-bottom: 22px; letter-spacing: .06em;
+      background: rgba(217,119,6,.08);
+      border: 1px solid rgba(217,119,6,.22);
+      margin-bottom: 20px; letter-spacing: .1em;
       text-transform: uppercase;
     }
-    .pulse-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--neon);
-      box-shadow: 0 0 8px var(--neon);
-      animation: pulseGlow 2s infinite;
+    .sun-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold2);
+      box-shadow: 0 0 6px var(--gold2), 0 0 14px rgba(245,158,11,.4);
+      animation: sunPulse 3s ease-in-out infinite;
     }
-    @keyframes pulseGlow {
-      0%,100%{ box-shadow: 0 0 6px var(--neon); opacity: 1; }
-      50%    { box-shadow: 0 0 16px var(--neon); opacity: .6; }
+    @keyframes sunPulse {
+      0%,100% { box-shadow: 0 0 6px var(--gold2), 0 0 14px rgba(245,158,11,.35); }
+      50%      { box-shadow: 0 0 10px var(--gold2), 0 0 24px rgba(245,158,11,.55); }
     }
 
     .hero h1 {
-      font-size: clamp(34px, 6vw, 58px);
-      font-weight: 700; letter-spacing: -1.5px; line-height: 1.08;
-      color: var(--ink); margin-bottom: 18px;
+      font-size: clamp(34px, 5.5vw, 58px);
+      font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
+      margin-bottom: 16px; color: var(--ink);
     }
-    .hero h1 .glow-text {
-      background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 50%, var(--neon3) 100%);
+    .hero h1 .sol {
+      background: linear-gradient(135deg, #c47f0a 0%, #e8950e 40%, #f5be3a 70%, #c2410c 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 20px rgba(0,240,255,0.35));
-      animation: gradientShift 6s ease infinite;
-      background-size: 200% 200%;
+      background-size: 200% auto;
+      animation: solShift 8s linear infinite;
+      filter: drop-shadow(0 1px 12px rgba(217,119,6,.25));
     }
-    @keyframes gradientShift {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    @keyframes solShift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
     }
     .hero-sub {
-      font-size: 16px; color: var(--ink-2); line-height: 1.75;
-      max-width: 500px; margin: 0 auto 30px;
+      font-size: 16.5px; color: var(--ink-2); line-height: 1.75;
+      max-width: 520px; margin: 0 auto 28px;
     }
-    .hero-links {
+    .hero-btns {
       display: flex; align-items: center; justify-content: center;
       gap: 10px; flex-wrap: wrap;
     }
@@ -176,32 +170,22 @@
       font-family: inherit; font-size: 14px; font-weight: 600;
       padding: 10px 22px; border-radius: 10px; cursor: pointer;
       text-decoration: none; transition: all .2s; border: none;
-      letter-spacing: .02em;
     }
-    .btn-neon {
-      background: rgba(0,240,255,0.1);
-      color: var(--neon);
-      border: 1px solid rgba(0,240,255,0.35);
-      box-shadow: 0 0 20px rgba(0,240,255,0.1);
+    .btn-gold {
+      background: var(--ink); color: #fff;
     }
-    .btn-neon:hover {
-      background: rgba(0,240,255,0.18);
-      box-shadow: 0 0 30px rgba(0,240,255,0.25);
-      transform: translateY(-1px);
+    .btn-gold:hover { background: #2a1e00; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-outline {
+      background: transparent; color: var(--ink-2);
+      border: 1.5px solid var(--border2);
     }
-    .btn-ghost {
-      background: rgba(255,255,255,0.04);
-      color: var(--ink-2);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-    .btn-ghost:hover { color: var(--ink); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.07); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(217,119,6,.04); }
 
-    /* ── STATS TICKER ── */
+    /* ── STATS ── */
     .stats {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      background: rgba(10,15,30,0.5);
-      backdrop-filter: blur(8px);
+      background: var(--bg2);
     }
     .stats-inner {
       max-width: 900px; margin: 0 auto;
@@ -209,17 +193,15 @@
       padding: 0 24px;
     }
     .stat {
-      padding: 22px 16px; text-align: center;
+      padding: 24px 16px; text-align: center;
       border-right: 1px solid var(--border);
-      position: relative;
     }
     .stat:last-child { border-right: none; }
     .stat-val {
       display: block; font-size: 26px; font-weight: 700;
-      letter-spacing: -1px; color: var(--ink);
-      margin-bottom: 4px;
+      letter-spacing: -1px; color: var(--ink); margin-bottom: 4px;
     }
-    .stat-val span { color: var(--neon); text-shadow: 0 0 16px rgba(0,240,255,0.5); }
+    .stat-val span { color: var(--gold); }
     .stat-label { font-size: 11px; color: var(--ink-3); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
     @media (max-width: 640px) {
       .stats-inner { grid-template-columns: repeat(2,1fr); }
@@ -227,27 +209,31 @@
     }
 
     /* ── LAYOUT ── */
-    main { max-width: 1120px; margin: 0 auto; padding: 0 24px 80px; }
-    .wrap { padding-top: 60px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+    .wrap { padding-top: 56px; }
 
     /* ── SECTION HEADER ── */
     .sec-header {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 22px;
+    }
+    .sec-ornament {
+      width: 5px; height: 5px; border-radius: 1px;
+      background: var(--gold); transform: rotate(45deg);
+      flex-shrink: 0;
     }
     .sec-title {
-      font-size: 11px; font-weight: 700; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--neon);
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--gold);
       white-space: nowrap;
-      text-shadow: 0 0 12px rgba(0,240,255,0.4);
     }
     .sec-line {
       flex: 1; height: 1px;
-      background: linear-gradient(90deg, rgba(0,240,255,0.3), transparent);
+      background: linear-gradient(90deg, var(--border2), transparent);
     }
 
     /* ── GRID ── */
-    .grid { display: grid; gap: 14px; }
+    .grid   { display: grid; gap: 14px; }
     .grid-3 { grid-template-columns: repeat(3,1fr); }
     @media (max-width: 900px) { .grid-3 { grid-template-columns: repeat(2,1fr); } }
     @media (max-width: 560px) { .grid-3 { grid-template-columns: 1fr; } }
@@ -259,84 +245,56 @@
       border-radius: var(--radius);
       padding: 22px;
       display: flex; flex-direction: column; gap: 12px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
       position: relative; overflow: hidden;
-      transition: border-color .3s, box-shadow .3s;
       transform-style: preserve-3d;
+      transition: box-shadow .25s, border-color .25s, transform .18s;
       will-change: transform;
       animation: cardIn .5s cubic-bezier(.22,.68,0,1.2) both;
       animation-play-state: paused;
     }
     @keyframes cardIn {
-      from { opacity: 0; transform: translateY(20px) scale(.97); }
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
       to   { opacity: 1; transform: none; }
     }
-
-    /* Holographic shimmer on card::before */
+    /* Solar shimmer on hover */
     .card::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
-        rgba(0,240,255,0.06) 0%,
-        rgba(168,85,247,0.04) 40%,
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%),
+        rgba(245,190,58,.08) 0%,
+        rgba(217,119,6,.04) 50%,
         transparent 70%);
-      opacity: 0; transition: opacity .3s;
-      pointer-events: none; z-index: 0;
+      opacity: 0; transition: opacity .3s; z-index: 0;
     }
     .card:hover::before { opacity: 1; }
-
-    /* Animated rainbow border on hover */
-    .card::after {
-      content: '';
-      position: absolute; inset: -1px;
-      border-radius: calc(var(--radius) + 1px);
-      background: conic-gradient(from var(--angle, 0deg),
-        #00f0ff 0deg, #a855f7 90deg, #f472b6 180deg, #00f0ff 360deg);
-      opacity: 0;
-      transition: opacity .3s;
-      z-index: -1;
-      animation: rotateBorder 4s linear infinite;
-    }
-    .card:hover::after { opacity: 1; }
-    @property --angle {
-      syntax: '<angle>';
-      initial-value: 0deg;
-      inherits: false;
-    }
-    @keyframes rotateBorder { to { --angle: 360deg; } }
-
     .card:hover {
-      border-color: transparent;
-      box-shadow: 0 0 40px rgba(0,240,255,0.08), 0 8px 32px rgba(0,0,0,0.4);
+      border-color: rgba(217,119,6,.3);
+      box-shadow: var(--shadow-md), 0 0 0 1px rgba(245,158,11,.1);
     }
+    .card > * { position: relative; z-index: 1; }
 
     .card-wide { grid-column: span 2; }
     @media (max-width: 900px) { .card-wide { grid-column: span 1; } }
-
-    .card > * { position: relative; z-index: 1; }
 
     .card-head { display: flex; align-items: flex-start; gap: 12px; }
     .card-icon {
       width: 40px; height: 40px; flex-shrink: 0;
       border-radius: 10px;
-      background: rgba(0,240,255,0.07);
-      border: 1px solid rgba(0,240,255,0.15);
+      background: rgba(245,190,58,.10);
+      border: 1px solid rgba(217,119,6,.18);
       display: flex; align-items: center; justify-content: center;
       font-size: 18px;
     }
     .card-name {
-      font-size: 15px; font-weight: 700; color: var(--ink);
-      letter-spacing: -.2px;
+      font-size: 15px; font-weight: 700;
+      color: var(--ink); letter-spacing: -.25px;
     }
     .card-domain {
       font-size: 11px; color: var(--ink-3);
-      font-family: 'JetBrains Mono', monospace;
-      margin-top: 2px;
+      font-family: 'JetBrains Mono', monospace; margin-top: 2px;
     }
     .card-desc {
-      font-size: 13.5px; color: var(--ink-2);
-      line-height: 1.65; flex: 1;
+      font-size: 13.5px; color: var(--ink-2); line-height: 1.68; flex: 1;
     }
 
     /* ── TAGS ── */
@@ -344,15 +302,15 @@
     .tag {
       font-size: 10.5px; font-weight: 600; letter-spacing: .04em;
       padding: 3px 8px; border-radius: 5px;
-      background: rgba(255,255,255,0.04);
-      color: var(--ink-3); border: 1px solid rgba(255,255,255,0.07);
+      background: var(--bg2); color: var(--ink-3);
+      border: 1px solid var(--border);
     }
-    .tag-cyan    { background: rgba(0,240,255,0.08);   color: #67e8f9; border-color: rgba(0,240,255,0.2); }
-    .tag-purple  { background: rgba(168,85,247,0.1);   color: #c4b5fd; border-color: rgba(168,85,247,0.25); }
-    .tag-pink    { background: rgba(244,114,182,0.1);  color: #f9a8d4; border-color: rgba(244,114,182,0.25); }
-    .tag-green   { background: rgba(74,222,128,0.08);  color: #86efac; border-color: rgba(74,222,128,0.2); }
-    .tag-orange  { background: rgba(251,146,60,0.08);  color: #fed7aa; border-color: rgba(251,146,60,0.2); }
-    .tag-red     { background: rgba(248,113,113,0.08); color: #fca5a5; border-color: rgba(248,113,113,0.2); }
+    .tag-gold   { background: rgba(245,190,58,.10); color: #92600a; border-color: rgba(245,158,11,.25); }
+    .tag-ember  { background: rgba(194,65,12,.07);  color: #9a3412; border-color: rgba(234,88,12,.2); }
+    .tag-green  { background: rgba(21,128,61,.07);  color: #166534; border-color: rgba(34,197,94,.2); }
+    .tag-purple { background: rgba(109,40,217,.06); color: #6d28d9; border-color: rgba(139,92,246,.2); }
+    .tag-sky    { background: rgba(3,105,161,.06);  color: #075985; border-color: rgba(56,189,248,.2); }
+    .tag-red    { background: rgba(185,28,28,.06);  color: #991b1b; border-color: rgba(248,113,113,.2); }
 
     /* ── CARD FOOTER ── */
     .card-footer-row {
@@ -365,57 +323,56 @@
       font-size: 11.5px; color: var(--ink-3); font-weight: 500;
     }
     .status-dot { width: 6px; height: 6px; border-radius: 50%; }
-    .status-live { background: var(--green);  box-shadow: 0 0 6px rgba(74,222,128,.5); }
-    .status-oss  { background: var(--neon);   box-shadow: 0 0 6px rgba(0,240,255,.5); }
-    .status-wip  { background: var(--orange); box-shadow: 0 0 6px rgba(251,146,60,.5); }
+    .status-live { background: #16a34a; box-shadow: 0 0 5px rgba(22,163,74,.4); }
+    .status-oss  { background: var(--gold2); box-shadow: 0 0 5px rgba(245,158,11,.4); }
+    .status-wip  { background: #ea580c; box-shadow: 0 0 5px rgba(234,88,12,.4); }
     .card-link {
       display: inline-flex; align-items: center; gap: 4px;
       font-size: 12.5px; font-weight: 600;
-      color: var(--neon); text-decoration: none;
-      transition: color .15s, gap .15s, text-shadow .15s;
+      color: var(--gold); text-decoration: none;
+      transition: color .15s, gap .15s;
     }
-    .card-link:hover { color: #fff; gap: 7px; text-shadow: 0 0 12px rgba(0,240,255,0.6); }
+    .card-link:hover { color: var(--ember); gap: 7px; }
     .card-link svg { width: 12px; height: 12px; }
 
     /* ── FOOTER ── */
     footer {
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px; padding: 24px 40px;
+      flex-wrap: wrap; gap: 16px; padding: 26px 40px;
       border-top: 1px solid var(--border);
-      background: rgba(2,6,23,0.8);
-      backdrop-filter: blur(12px);
+      background: var(--bg2);
     }
     .footer-left { font-size: 13px; color: var(--ink-3); }
     .footer-links { display: flex; gap: 20px; }
     .footer-links a {
-      font-size: 12.5px; color: var(--ink-3);
-      text-decoration: none; font-weight: 500;
-      transition: color .15s;
+      font-size: 12.5px; color: var(--ink-3); text-decoration: none;
+      font-weight: 500; transition: color .15s;
     }
-    .footer-links a:hover { color: var(--neon); text-shadow: 0 0 8px rgba(0,240,255,.4); }
+    .footer-links a:hover { color: var(--gold); }
 
     /* ── MOBILE ── */
     @media (max-width: 768px) {
       nav { padding: 0 18px; }
       .nav-links a:not(.nav-cta) { display: none; }
-      .hero { padding: 44px 18px 28px; }
-      .canvas-wrap { max-width: 300px; }
+      .hero { padding: 40px 18px 28px; }
+      .canvas-wrap { max-width: 320px; }
       .hero h1 { font-size: 30px; }
       .hero-sub { font-size: 14.5px; }
       main { padding: 0 16px 60px; }
-      .wrap { padding-top: 48px; }
+      .wrap { padding-top: 44px; }
       footer { padding: 20px 18px; }
+      .solar-corona { width: 240px; height: 160px; }
     }
     @media (max-width: 400px) {
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .stat { padding: 16px 10px; }
-      .stat-val { font-size: 22px; }
+      .stat-val { font-size: 21px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── NAV ── -->
+  <!-- NAV -->
   <nav>
     <div class="nav-brand">Christian Cattaneo</div>
     <div class="nav-links">
@@ -426,28 +383,29 @@
     </div>
   </nav>
 
-  <!-- ── HERO ── -->
+  <!-- HERO -->
   <div class="hero">
     <div class="canvas-wrap">
+      <div class="solar-corona"></div>
       <canvas id="torus-canvas"></canvas>
     </div>
-    <div class="hero-badge">
-      <span class="pulse-dot"></span>
+    <div class="hero-eyebrow">
+      <span class="sun-dot"></span>
       Building in Austin, TX
     </div>
-    <h1>Full-stack AI<br>engineer &amp; <span class="glow-text">builder</span></h1>
+    <h1>Full-stack AI<br>engineer &amp; <span class="sol">builder</span></h1>
     <p class="hero-sub">
       Shipping monetized products at the intersection of AI agents,
       developer tools, and growth automation. 16+ products live.
     </p>
-    <div class="hero-links">
-      <a class="btn btn-neon" href="https://maxxer.ai" target="_blank">Maxxer.ai →</a>
-      <a class="btn btn-ghost" href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
-      <a class="btn btn-ghost" href="https://x.com/christiancattaneo" target="_blank">X / Twitter</a>
+    <div class="hero-btns">
+      <a class="btn btn-gold" href="https://maxxer.ai" target="_blank">Maxxer.ai →</a>
+      <a class="btn btn-outline" href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
+      <a class="btn btn-outline" href="https://x.com/christiancattaneo" target="_blank">X / Twitter</a>
     </div>
   </div>
 
-  <!-- ── STATS ── -->
+  <!-- STATS -->
   <div class="stats">
     <div class="stats-inner">
       <div class="stat">
@@ -469,32 +427,28 @@
     </div>
   </div>
 
-  <!-- ── MAIN ── -->
+  <!-- MAIN -->
   <main>
 
     <!-- AI Products -->
     <div class="wrap" id="products">
       <div class="sec-header">
+        <span class="sec-ornament"></span>
         <span class="sec-title">AI Products</span>
         <div class="sec-line"></div>
       </div>
       <div class="grid grid-3">
 
-        <div class="card card-wide" style="animation-delay:.05s">
-          <div class="card-head">
-            <div class="card-icon">🚀</div>
-            <div>
-              <div class="card-name">Maxxer</div>
-              <div class="card-domain">maxxer.ai</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            The AI growth layer. 14 fully-automated modules — lead research, outreach, content engine, SEO, competitive intel, GEO, ad intelligence, and more. Your entire growth stack, on autopilot.
-          </div>
+        <div class="card card-wide" style="animation-delay:.04s">
+          <div class="card-head"><div class="card-icon">🚀</div><div>
+            <div class="card-name">Maxxer</div>
+            <div class="card-domain">maxxer.ai</div>
+          </div></div>
+          <div class="card-desc">The AI growth layer. 14 fully-automated modules — lead research, outreach, content engine, SEO, competitive intel, GEO, ad intelligence, and more. Your entire growth stack, on autopilot.</div>
           <div class="card-tags">
-            <span class="tag tag-orange">AI Automation</span>
-            <span class="tag tag-cyan">Growth</span>
-            <span class="tag tag-orange">Lead Gen</span>
+            <span class="tag tag-gold">AI Automation</span>
+            <span class="tag tag-sky">Growth</span>
+            <span class="tag tag-gold">Lead Gen</span>
             <span class="tag">SaaS</span>
           </div>
           <div class="card-footer-row">
@@ -503,20 +457,15 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.1s">
-          <div class="card-head">
-            <div class="card-icon">🎓</div>
-            <div>
-              <div class="card-name">Maxxer Academy</div>
-              <div class="card-domain">maxxer.academy</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Curated agent-ready growth stack for AI founders. 30 tools across 9 categories — ClawHub skills, MCP servers, and direct APIs your AI can actually operate.
-          </div>
+        <div class="card" style="animation-delay:.09s">
+          <div class="card-head"><div class="card-icon">🎓</div><div>
+            <div class="card-name">Maxxer Academy</div>
+            <div class="card-domain">maxxer.academy</div>
+          </div></div>
+          <div class="card-desc">Curated agent-ready growth stack for AI founders. 30 tools across 9 categories — ClawHub skills, MCP servers, and direct APIs your AI can actually operate.</div>
           <div class="card-tags">
-            <span class="tag tag-orange">Agent-Ready</span>
-            <span class="tag tag-cyan">MCP</span>
+            <span class="tag tag-gold">Agent-Ready</span>
+            <span class="tag tag-sky">MCP</span>
             <span class="tag">Directory</span>
           </div>
           <div class="card-footer-row">
@@ -525,20 +474,15 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.15s">
-          <div class="card-head">
-            <div class="card-icon">🤖</div>
-            <div>
-              <div class="card-name">CEO</div>
-              <div class="card-domain">Claw Engine Optimization</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Optimize your product for AI agent discovery — beyond SEO and GEO. llms.txt, MCP endpoints, Capability Schema, A2A protocol, and Agent Analytics.
-          </div>
+        <div class="card" style="animation-delay:.14s">
+          <div class="card-head"><div class="card-icon">🤖</div><div>
+            <div class="card-name">CEO</div>
+            <div class="card-domain">Claw Engine Optimization</div>
+          </div></div>
+          <div class="card-desc">Optimize your product for AI agent discovery — beyond SEO and GEO. llms.txt, MCP endpoints, Capability Schema, A2A protocol, and Agent Analytics.</div>
           <div class="card-tags">
             <span class="tag tag-purple">OpenClaw</span>
-            <span class="tag tag-cyan">MCP</span>
+            <span class="tag tag-sky">MCP</span>
             <span class="tag">A2A</span>
           </div>
           <div class="card-footer-row">
@@ -547,19 +491,14 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.2s">
-          <div class="card-head">
-            <div class="card-icon">👗</div>
-            <div>
-              <div class="card-name">Colette</div>
-              <div class="card-domain">colette.fashion</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            AI-powered fashion iOS app. Virtual try-on, curated style collections, AI wardrobe curation, and social shopping — built for the next generation of fashion discovery.
-          </div>
+        <div class="card" style="animation-delay:.19s">
+          <div class="card-head"><div class="card-icon">👗</div><div>
+            <div class="card-name">Colette</div>
+            <div class="card-domain">colette.fashion</div>
+          </div></div>
+          <div class="card-desc">AI-powered fashion iOS app. Virtual try-on, curated style collections, AI wardrobe curation, and social shopping — built for the next generation of fashion discovery.</div>
           <div class="card-tags">
-            <span class="tag tag-orange">iOS</span>
+            <span class="tag tag-ember">iOS</span>
             <span class="tag tag-purple">AI Vision</span>
             <span class="tag">Fashion</span>
           </div>
@@ -569,19 +508,14 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.25s">
-          <div class="card-head">
-            <div class="card-icon">📊</div>
-            <div>
-              <div class="card-name">Midas MCP</div>
-              <div class="card-domain">midasmcp.com</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            AI-powered development intelligence platform. MCP server with interactive TUI and dashboard — real-time code insights, health monitoring, and agent-driven analysis.
-          </div>
+        <div class="card" style="animation-delay:.24s">
+          <div class="card-head"><div class="card-icon">📊</div><div>
+            <div class="card-name">Midas MCP</div>
+            <div class="card-domain">midasmcp.com</div>
+          </div></div>
+          <div class="card-desc">AI-powered development intelligence platform. MCP server with interactive TUI and dashboard — real-time code insights, health monitoring, and agent-driven analysis.</div>
           <div class="card-tags">
-            <span class="tag tag-cyan">MCP</span>
+            <span class="tag tag-sky">MCP</span>
             <span class="tag tag-green">DevOps</span>
             <span class="tag">CLI</span>
           </div>
@@ -591,19 +525,14 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.3s">
-          <div class="card-head">
-            <div class="card-icon">⚡</div>
-            <div>
-              <div class="card-name">InProd</div>
-              <div class="card-domain">inprod.ai</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Production-ready AI infrastructure. Ship AI-powered features with confidence — deployment tooling, monitoring, and infrastructure for serious AI applications.
-          </div>
+        <div class="card" style="animation-delay:.29s">
+          <div class="card-head"><div class="card-icon">⚡</div><div>
+            <div class="card-name">InProd</div>
+            <div class="card-domain">inprod.ai</div>
+          </div></div>
+          <div class="card-desc">Production-ready AI infrastructure. Ship AI-powered features with confidence — deployment tooling, monitoring, and infrastructure for serious AI applications.</div>
           <div class="card-tags">
-            <span class="tag tag-orange">AI Infra</span>
+            <span class="tag tag-ember">AI Infra</span>
             <span class="tag">Production</span>
             <span class="tag">Next.js</span>
           </div>
@@ -619,26 +548,22 @@
     <!-- Developer Tools -->
     <div class="wrap" id="tools">
       <div class="sec-header">
+        <span class="sec-ornament"></span>
         <span class="sec-title">Developer Tools &amp; OSS</span>
         <div class="sec-line"></div>
       </div>
       <div class="grid grid-3">
 
-        <div class="card" style="animation-delay:.05s">
-          <div class="card-head">
-            <div class="card-icon">🔑</div>
-            <div>
-              <div class="card-name">ipeaky</div>
-              <div class="card-domain">clawhub.com/ipeaky</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Secure API key management for AI agents. Keys never touch chat history, command args, or logs — ever. Published to ClawHub v3.1.0 with CI and 36 tests.
-          </div>
+        <div class="card" style="animation-delay:.04s">
+          <div class="card-head"><div class="card-icon">🔑</div><div>
+            <div class="card-name">ipeaky</div>
+            <div class="card-domain">clawhub.com/ipeaky</div>
+          </div></div>
+          <div class="card-desc">Secure API key management for AI agents. Keys never touch chat history, command args, or logs — ever. Published to ClawHub v3.1.0 with CI and 36 tests.</div>
           <div class="card-tags">
             <span class="tag tag-purple">OpenClaw</span>
             <span class="tag tag-green">Security</span>
-            <span class="tag tag-cyan">ClawHub Skill</span>
+            <span class="tag tag-sky">ClawHub</span>
           </div>
           <div class="card-footer-row">
             <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
@@ -646,20 +571,15 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.1s">
-          <div class="card-head">
-            <div class="card-icon">🔨</div>
-            <div>
-              <div class="card-name">wreckit</div>
-              <div class="card-domain">wreckit-ralph.vercel.app</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Bulletproof AI code verification. The agent IS the engine. Six gates: slop scan, type check, mutation testing, property tests, proof bundle, and swarm verification.
-          </div>
+        <div class="card" style="animation-delay:.09s">
+          <div class="card-head"><div class="card-icon">🔨</div><div>
+            <div class="card-name">wreckit</div>
+            <div class="card-domain">wreckit-ralph.vercel.app</div>
+          </div></div>
+          <div class="card-desc">Bulletproof AI code verification. The agent IS the engine. Six gates: slop scan, type check, mutation testing, property tests, proof bundle, and swarm verification.</div>
           <div class="card-tags">
             <span class="tag tag-red">Verification</span>
-            <span class="tag tag-orange">AI Agent</span>
+            <span class="tag tag-ember">AI Agent</span>
             <span class="tag">Testing</span>
           </div>
           <div class="card-footer-row">
@@ -668,19 +588,14 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.15s">
-          <div class="card-head">
-            <div class="card-icon">📡</div>
-            <div>
-              <div class="card-name">Merlyn</div>
-              <div class="card-domain">merlyn-mcp.vercel.app</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Local dev coach with MCP server and interactive TUI. AI-powered code analysis, real-time health monitoring, and development intelligence — zero cloud required.
-          </div>
+        <div class="card" style="animation-delay:.14s">
+          <div class="card-head"><div class="card-icon">📡</div><div>
+            <div class="card-name">Merlyn</div>
+            <div class="card-domain">merlyn-mcp.vercel.app</div>
+          </div></div>
+          <div class="card-desc">Local dev coach with MCP server and interactive TUI. AI-powered code analysis, real-time health monitoring, and development intelligence — zero cloud required.</div>
           <div class="card-tags">
-            <span class="tag tag-cyan">MCP</span>
+            <span class="tag tag-sky">MCP</span>
             <span class="tag">CLI / TUI</span>
             <span class="tag tag-green">Local AI</span>
           </div>
@@ -690,19 +605,14 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.2s">
-          <div class="card-head">
-            <div class="card-icon">📏</div>
-            <div>
-              <div class="card-name">Slopometer</div>
-              <div class="card-domain">slopometer.com</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            AI-powered code slop scanner. Detects your tech stack, finds AI-generated code issues, and generates actual fixes you can apply. Ship with confidence.
-          </div>
+        <div class="card" style="animation-delay:.19s">
+          <div class="card-head"><div class="card-icon">📏</div><div>
+            <div class="card-name">Slopometer</div>
+            <div class="card-domain">slopometer.com</div>
+          </div></div>
+          <div class="card-desc">AI-powered code slop scanner. Detects your tech stack, finds AI-generated code issues, and generates actual fixes you can apply. Ship with confidence.</div>
           <div class="card-tags">
-            <span class="tag tag-orange">Code Quality</span>
+            <span class="tag tag-ember">Code Quality</span>
             <span class="tag">Static Analysis</span>
             <span class="tag">AI</span>
           </div>
@@ -712,17 +622,12 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.25s">
-          <div class="card-head">
-            <div class="card-icon">🎯</div>
-            <div>
-              <div class="card-name">Chiron</div>
-              <div class="card-domain">chiron.academy</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            AI-powered coaching and education platform. Personalized learning paths, AI mentorship, and knowledge assessment — next-generation education infrastructure.
-          </div>
+        <div class="card" style="animation-delay:.24s">
+          <div class="card-head"><div class="card-icon">🎯</div><div>
+            <div class="card-name">Chiron</div>
+            <div class="card-domain">chiron.academy</div>
+          </div></div>
+          <div class="card-desc">AI-powered coaching and education platform. Personalized learning paths, AI mentorship, and knowledge assessment — next-generation education infrastructure.</div>
           <div class="card-tags">
             <span class="tag tag-purple">AI Coach</span>
             <span class="tag">Education</span>
@@ -734,21 +639,16 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.3s">
-          <div class="card-head">
-            <div class="card-icon">🌐</div>
-            <div>
-              <div class="card-name">Crowbar</div>
-              <div class="card-domain">crowbar.sh</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Autonomous web penetration testing. Give it a URL, it finds everything exploitable — no manual configuration, no false positives, actionable results every time.
-          </div>
+        <div class="card" style="animation-delay:.29s">
+          <div class="card-head"><div class="card-icon">🌐</div><div>
+            <div class="card-name">Crowbar</div>
+            <div class="card-domain">crowbar.sh</div>
+          </div></div>
+          <div class="card-desc">Autonomous web penetration testing. Give it a URL, it finds everything exploitable — no manual configuration, no false positives, actionable results every time.</div>
           <div class="card-tags">
             <span class="tag tag-red">PenTest</span>
             <span class="tag">Autonomous</span>
-            <span class="tag tag-orange">Security</span>
+            <span class="tag tag-ember">Security</span>
           </div>
           <div class="card-footer-row">
             <div class="card-status"><span class="status-dot status-live"></span> Live</div>
@@ -762,25 +662,21 @@
     <!-- Security -->
     <div class="wrap" id="security">
       <div class="sec-header">
+        <span class="sec-ornament"></span>
         <span class="sec-title">Security</span>
         <div class="sec-line"></div>
       </div>
       <div class="grid grid-3">
 
-        <div class="card card-wide" style="animation-delay:.05s">
-          <div class="card-head">
-            <div class="card-icon">🍍</div>
-            <div>
-              <div class="card-name">Pinata Security</div>
-              <div class="card-domain">pinata.sh</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            AI-powered security scanner that finds vulnerabilities hiding in your codebase. 47 detection categories across security, data integrity, concurrency, and performance. Context-aware scanning adjusts rules based on your project type.
-          </div>
+        <div class="card card-wide" style="animation-delay:.04s">
+          <div class="card-head"><div class="card-icon">🍍</div><div>
+            <div class="card-name">Pinata Security</div>
+            <div class="card-domain">pinata.sh</div>
+          </div></div>
+          <div class="card-desc">AI-powered security scanner that finds vulnerabilities hiding in your codebase. 47 detection categories across security, data integrity, concurrency, and performance. Context-aware scanning adjusts rules based on your project type.</div>
           <div class="card-tags">
             <span class="tag tag-red">Security</span>
-            <span class="tag tag-orange">SAST</span>
+            <span class="tag tag-ember">SAST</span>
             <span class="tag">47 Categories</span>
             <span class="tag tag-purple">AI</span>
           </div>
@@ -790,17 +686,12 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.1s">
-          <div class="card-head">
-            <div class="card-icon">🦫</div>
-            <div>
-              <div class="card-name">Whackamole</div>
-              <div class="card-domain">whackamole.sh</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Automated penetration testing with verified fixes. Attacks your app, proves vulnerabilities are exploitable, generates fixes, and verifies they actually work.
-          </div>
+        <div class="card" style="animation-delay:.09s">
+          <div class="card-head"><div class="card-icon">🦫</div><div>
+            <div class="card-name">Whackamole</div>
+            <div class="card-domain">whackamole.sh</div>
+          </div></div>
+          <div class="card-desc">Automated penetration testing with verified fixes. Attacks your app, proves vulnerabilities are exploitable, generates fixes, and verifies they actually work.</div>
           <div class="card-tags">
             <span class="tag tag-red">PenTest</span>
             <span class="tag tag-green">Auto-Fix</span>
@@ -818,25 +709,21 @@
     <!-- Finance & Research -->
     <div class="wrap" id="finance">
       <div class="sec-header">
+        <span class="sec-ornament"></span>
         <span class="sec-title">Finance &amp; Research</span>
         <div class="sec-line"></div>
       </div>
       <div class="grid grid-3">
 
-        <div class="card card-wide" style="animation-delay:.05s">
-          <div class="card-head">
-            <div class="card-icon">📈</div>
-            <div>
-              <div class="card-name">Amalek</div>
-              <div class="card-domain">github.com/christiancattaneo/amalek</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            News-sentiment alpha signal agent for mechanical trading bots. Polymarket integration — scanner, weather pricer, and trader. Generates trading signals from real-time news sentiment analysis. Adversarial-tested: 6/6 attack vectors survived.
-          </div>
+        <div class="card card-wide" style="animation-delay:.04s">
+          <div class="card-head"><div class="card-icon">📈</div><div>
+            <div class="card-name">Amalek</div>
+            <div class="card-domain">github.com/christiancattaneo/amalek</div>
+          </div></div>
+          <div class="card-desc">News-sentiment alpha signal agent for mechanical trading bots. Polymarket integration — scanner, weather pricer, and trader. Generates trading signals from real-time news sentiment analysis. Adversarial-tested: 6/6 attack vectors survived.</div>
           <div class="card-tags">
             <span class="tag tag-green">Trading</span>
-            <span class="tag tag-orange">Sentiment AI</span>
+            <span class="tag tag-gold">Sentiment AI</span>
             <span class="tag">Polymarket</span>
             <span class="tag">Python</span>
           </div>
@@ -846,17 +733,12 @@
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.1s">
-          <div class="card-head">
-            <div class="card-icon">🥩</div>
-            <div>
-              <div class="card-name">Primal Diet</div>
-              <div class="card-domain">primaldiet reference</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            Comprehensive primal diet reference system. Evidence-based nutritional data, food scoring, and meal planning tools for ancestral health optimization.
-          </div>
+        <div class="card" style="animation-delay:.09s">
+          <div class="card-head"><div class="card-icon">🥩</div><div>
+            <div class="card-name">Primal Diet</div>
+            <div class="card-domain">primaldiet reference</div>
+          </div></div>
+          <div class="card-desc">Comprehensive primal diet reference system. Evidence-based nutritional data, food scoring, and meal planning tools for ancestral health optimization.</div>
           <div class="card-tags">
             <span class="tag tag-green">Health</span>
             <span class="tag">Nutrition</span>
@@ -870,10 +752,9 @@
 
       </div>
     </div>
-
   </main>
 
-  <!-- ── FOOTER ── -->
+  <!-- FOOTER -->
   <footer>
     <div class="footer-left">
       <strong style="color:var(--ink-2)">Christian Cattaneo</strong> · Full-Stack AI Engineer · Austin, TX
@@ -886,214 +767,217 @@
     </div>
   </footer>
 
-  <!-- ── THREE.JS ── -->
+  <!-- THREE.JS — Convergence.sh torus technique, solar palette -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
   (function() {
     const canvas = document.getElementById('torus-canvas');
     const wrap   = canvas.parentElement;
-
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-    camera.position.z = 4.2;
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    // Slight elevation angle like convergence.sh
+    camera.position.set(0, 1.8, 8.5);
+    camera.lookAt(0, 0, 0);
 
     function resize() {
-      const w = wrap.clientWidth, h = parseInt(getComputedStyle(canvas).height) || 340;
+      const w = wrap.clientWidth;
+      const h = parseInt(getComputedStyle(canvas).height) || 320;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
 
-    // ── STAR FIELD ─────────────────────────────────────────────────────────
-    const starCount = 500;
-    const starPos = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i++) starPos[i] = (Math.random() - 0.5) * 40;
-    const starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-    const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.025, transparent: true, opacity: 0.55 });
-    scene.add(new THREE.Points(starGeo, starMat));
+    // ── PARAMETRIC TORUS (exact convergence.sh: R=2, r=0.8) ──────────────
+    // convergence.sh: (2+0.8*cos(v))*cos(u), 0.8*sin(v), (2+0.8*cos(v))*sin(u)
+    function torusPoint(u, v) {
+      const R = 2, r = 0.8;
+      return [
+        (R + r * Math.cos(v)) * Math.cos(u),
+        r * Math.sin(v),
+        (R + r * Math.cos(v)) * Math.sin(u),
+      ];
+    }
 
-    // ── COLOR-CYCLING TORUS (ShaderMaterial) ───────────────────────────────
-    const R = 1.0, r = 0.38;
-    const torusGeo = new THREE.TorusGeometry(R, r, 30, 90);
-    const wfGeo    = new THREE.WireframeGeometry(torusGeo);
+    // Group that receives quaternion drag
+    const group = new THREE.Group();
+    // Slight initial tilt to show top face (like convergence.sh)
+    group.rotation.x = -0.3;
+    scene.add(group);
 
-    const shaderMat = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 } },
-      vertexShader: `
-        uniform float uTime;
-        varying float vFlow;
-        void main() {
-          // Flow value cycles along the tube
-          vFlow = fract(atan(position.y, position.x) / (2.0 * 3.14159) + uTime * 0.15);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying float vFlow;
-        void main() {
-          // Cyan → Purple → Pink gradient cycling
-          vec3 c1 = vec3(0.0,  0.94, 1.0);   // #00f0ff cyan
-          vec3 c2 = vec3(0.66, 0.33, 0.97);  // #a855f7 purple
-          vec3 c3 = vec3(0.96, 0.28, 0.71);  // #f472b6 pink
-          vec3 color;
-          float t = vFlow;
-          if (t < 0.5) color = mix(c1, c2, t * 2.0);
-          else         color = mix(c2, c3, (t - 0.5) * 2.0);
-          gl_FragColor = vec4(color, 0.75);
-        }
-      `,
-      transparent: true,
-    });
+    // ── WIREFRAME MESH (h$ equivalent) ───────────────────────────────────
+    const torusGeo = new THREE.TorusGeometry(2, 0.8, 48, 96);
+    // Orient to match parametric coord system
+    const wireMesh = new THREE.Mesh(torusGeo,
+      new THREE.MeshBasicMaterial({
+        color: 0xd97706,   // amber-600
+        wireframe: true,
+        transparent: true,
+        opacity: 0.18,
+      })
+    );
+    wireMesh.rotation.x = Math.PI / 2;
+    group.add(wireMesh);
 
-    const torus = new THREE.LineSegments(wfGeo, shaderMat);
-    scene.add(torus);
+    // ── 24 FLOWING ARCS (hK equivalent) ──────────────────────────────────
+    // Colors: amber, deep amber, gold — matching solar palette
+    const lineColors = [0xd97706, 0xc47f0a, 0xf5be3a]; // amber-600, gold, amber-300
+    const lines = [], lineData = [];
+    for (let i = 0; i < 24; i++) {
+      const u = i / 24 * Math.PI * 2;
+      lineData.push({ u, speed: 0.5 });
+      const pos = new Float32Array(150); // 50 points × 3
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.LineBasicMaterial({
+        color: lineColors[i % 3],
+        transparent: true,
+        opacity: 0.55,
+      });
+      const line = new THREE.Line(geo, mat);
+      lines.push(line);
+      group.add(line);
+    }
 
-    // Secondary dim ring for depth
-    const ring2Mat = new THREE.LineBasicMaterial({ color: 0x312e81, transparent: true, opacity: 0.22 });
-    const ring2 = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.TorusGeometry(R, r, 10, 44)), ring2Mat);
-    scene.add(ring2);
+    // ── 6000 PARTICLES (hJ equivalent) ───────────────────────────────────
+    const pCount  = 6000;
+    const pPos    = new Float32Array(pCount * 3);
+    const pCol    = new Float32Array(pCount * 3);
+    const pState  = [];
 
-    // ── ANIMATED SURFACE PARTICLES ─────────────────────────────────────────
-    const NUM = 300;
-    const pPos  = new Float32Array(NUM * 3);
-    const pData = Array.from({ length: NUM }, () => ({
-      u: Math.random() * Math.PI * 2,
-      v: Math.random() * Math.PI * 2,
-      du: (0.002 + Math.random() * 0.005) * (Math.random() < 0.5 ? 1 : -1),
-      dv: (0.008 + Math.random() * 0.020) * (Math.random() < 0.5 ? 1 : -1),
-    }));
+    for (let i = 0; i < pCount; i++) {
+      const u  = Math.random() * Math.PI * 2;
+      const v0 = Math.random() * Math.PI * 2;
+      const sp = 0.3 + 0.4 * Math.random();
+      pState.push({ u, v0, speed: sp });
+      const [x, y, z] = torusPoint(u, v0);
+      pPos[3*i] = x; pPos[3*i+1] = y; pPos[3*i+2] = z;
+      // Solar palette — amber / gold / warm white
+      const c = Math.random();
+      if (c < 0.33) {
+        // Bright gold
+        pCol[3*i] = 0.96; pCol[3*i+1] = 0.75; pCol[3*i+2] = 0.23;
+      } else if (c < 0.66) {
+        // Deep amber
+        pCol[3*i] = 0.85; pCol[3*i+1] = 0.47; pCol[3*i+2] = 0.04;
+      } else {
+        // Warm white-gold
+        pCol[3*i] = 1.0;  pCol[3*i+1] = 0.92; pCol[3*i+2] = 0.65;
+      }
+    }
+
     const pGeo = new THREE.BufferGeometry();
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-
-    // Particle shader — gradient color based on particle index
-    const pShader = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 } },
-      vertexShader: `
-        uniform float uTime;
-        attribute vec3 position;
-        varying float vIdx;
-        void main() {
-          vIdx = fract(atan(position.y, position.x) / (2.0*3.14159) + uTime * 0.2);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = 2.8;
-        }
-      `,
-      fragmentShader: `
-        varying float vIdx;
-        void main() {
-          vec2 uv = gl_PointCoord - 0.5;
-          float d = dot(uv, uv);
-          if (d > 0.25) discard;
-          vec3 c1 = vec3(0.37, 0.97, 1.0);
-          vec3 c2 = vec3(0.78, 0.50, 1.0);
-          vec3 c3 = vec3(1.0,  0.55, 0.85);
-          float t = vIdx;
-          vec3 color;
-          if (t < 0.5) color = mix(c1, c2, t * 2.0);
-          else         color = mix(c2, c3, (t-0.5)*2.0);
-          gl_FragColor = vec4(color, 0.9 * (1.0 - d * 3.5));
-        }
-      `,
+    pGeo.setAttribute('color',    new THREE.BufferAttribute(pCol, 3));
+    const pMat = new THREE.PointsMaterial({
+      size: 0.06,
+      vertexColors: true,
       transparent: true,
+      opacity: 0.9,
+      sizeAttenuation: true,
     });
-    const points = new THREE.Points(pGeo, pShader);
-    scene.add(points);
+    const particles = new THREE.Points(pGeo, pMat);
+    group.add(particles);
 
-    function updateParticles() {
-      for (let i = 0; i < NUM; i++) {
-        const p = pData[i];
-        p.u += p.du; p.v += p.dv;
-        pPos[i*3]   = (R + r*Math.cos(p.v)) * Math.cos(p.u);
-        pPos[i*3+1] = (R + r*Math.cos(p.v)) * Math.sin(p.u);
-        pPos[i*3+2] = r * Math.sin(p.v);
-      }
-      pGeo.attributes.position.needsUpdate = true;
-    }
+    // ── QUATERNION DRAG (hQ equivalent — exact convergence.sh logic) ─────
+    const yAxis = new THREE.Vector3(0, 1, 0);
+    const xAxis = new THREE.Vector3(1, 0, 0);
+    let dragging = false, prevX = 0, prevY = 0;
+    let velX = 0, velY = 0;
+    let autoSpin = true, spinTimer = null;
 
-    // ── DRAG / TRACKBALL ───────────────────────────────────────────────────
-    let isDragging = false, autoSpin = true;
-    let prevX = 0, prevY = 0, velX = 0, velY = 0;
-    let spinTimer = null;
-
-    function startDrag(x, y) {
-      isDragging = true; autoSpin = false;
-      prevX = x; prevY = y; velX = 0; velY = 0;
+    canvas.addEventListener('pointerdown', e => {
+      dragging = true; autoSpin = false;
+      prevX = e.clientX; prevY = e.clientY;
+      velX = 0; velY = 0;
       clearTimeout(spinTimer);
-    }
-    function moveDrag(x, y) {
-      if (!isDragging) return;
-      velX = (x - prevX) * 0.009;
-      velY = (y - prevY) * 0.009;
-      prevX = x; prevY = y;
-    }
-    function endDrag() {
-      isDragging = false;
-      spinTimer = setTimeout(() => autoSpin = true, 2500);
-    }
-
-    canvas.addEventListener('mousedown',  e => { startDrag(e.clientX, e.clientY); e.preventDefault(); });
-    window.addEventListener('mousemove',  e => moveDrag(e.clientX, e.clientY));
-    window.addEventListener('mouseup',    () => endDrag());
-    canvas.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
-    window.addEventListener('touchmove',  e => { if (e.touches[0]) moveDrag(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
-    window.addEventListener('touchend',   () => endDrag());
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - prevX;
+      const dy = e.clientY - prevY;
+      velX = dx; velY = dy;
+      const qY = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.005 * dx);
+      const qX = new THREE.Quaternion().setFromAxisAngle(xAxis, 0.005 * dy);
+      group.quaternion.premultiply(qY.multiply(qX));
+      prevX = e.clientX; prevY = e.clientY;
+    });
+    canvas.addEventListener('pointerup', () => {
+      dragging = false;
+      spinTimer = setTimeout(() => { autoSpin = true; velX = 0; velY = 0; }, 2000);
+    });
 
     resize();
     window.addEventListener('resize', resize);
 
-    // ── ANIMATE ────────────────────────────────────────────────────────────
+    // ── ANIMATION LOOP ────────────────────────────────────────────────────
     let t = 0;
     function animate() {
       requestAnimationFrame(animate);
       t += 0.016;
 
-      shaderMat.uniforms.uTime.value  = t;
-      pShader.uniforms.uTime.value    = t;
-
-      // Drag momentum
-      torus.rotation.y += velX;
-      torus.rotation.x += velY;
-      if (!isDragging) { velX *= 0.91; velY *= 0.91; }
-
-      if (autoSpin) {
-        torus.rotation.y += 0.004;
-        torus.rotation.x += 0.0014;
+      // Update flowing arcs (exact hK logic from convergence.sh)
+      for (let i = 0; i < lines.length; i++) {
+        const { u, speed } = lineData[i];
+        const pos = lines[i].geometry.attributes.position.array;
+        const nPts = pos.length / 3;
+        for (let j = 0; j < nPts; j++) {
+          const v = j / nPts * Math.PI * 0.7;
+          const [x, y, z] = torusPoint(u, t * speed + v);
+          pos[3*j] = x; pos[3*j+1] = y; pos[3*j+2] = z;
+        }
+        lines[i].geometry.attributes.position.needsUpdate = true;
       }
 
-      ring2.rotation.copy(torus.rotation);
-      points.rotation.copy(torus.rotation);
-      updateParticles();
+      // Update particles (exact hJ logic)
+      for (let i = 0; i < pCount; i++) {
+        const { u, v0, speed } = pState[i];
+        const [x, y, z] = torusPoint(u, v0 + t * speed);
+        pPos[3*i] = x; pPos[3*i+1] = y; pPos[3*i+2] = z;
+      }
+      pGeo.attributes.position.needsUpdate = true;
+
+      // Auto-spin
+      if (autoSpin) {
+        group.rotation.y += 0.004;
+      } else if (!dragging) {
+        // Momentum decay
+        const qY = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.002 * velX);
+        const qX = new THREE.Quaternion().setFromAxisAngle(xAxis, 0.002 * velY);
+        group.quaternion.premultiply(qY.multiply(qX));
+        velX *= 0.88; velY *= 0.88;
+      }
+
       renderer.render(scene, camera);
     }
     animate();
   })();
 
-  // ── 3D CARD TILT ────────────────────────────────────────────────────────
+  // ── 3D CARD TILT ─────────────────────────────────────────────────────────
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('mousemove', e => {
-      const r  = card.getBoundingClientRect();
-      const x  = (e.clientX - r.left) / r.width  - 0.5;
-      const y  = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transform = `perspective(900px) rotateY(${x*10}deg) rotateX(${-y*7}deg) translateZ(6px)`;
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateY(${x*8}deg) rotateX(${-y*6}deg) translateZ(4px)`;
       card.style.setProperty('--mx', ((e.clientX - r.left) / r.width  * 100) + '%');
       card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
     });
     card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   });
 
-  // ── SCROLL REVEAL ───────────────────────────────────────────────────────
+  // ── SCROLL REVEAL ─────────────────────────────────────────────────────────
   (function() {
     const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; io.unobserve(e.target); }});
-    }, { threshold: 0, rootMargin: '0px 0px -30px 0px' });
-    document.querySelectorAll('.card').forEach((c, i) => {
-      c.style.animationDelay = (i % 6 * 0.07) + 's';
-      c.style.animationPlayState = 'paused';
-      io.observe(c);
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; io.unobserve(e.target); }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.animationPlayState = 'paused'; io.observe(c);
     });
     setTimeout(() => document.querySelectorAll('.card').forEach(c => c.style.animationPlayState = 'running'), 1500);
   })();
