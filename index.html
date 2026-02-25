@@ -826,7 +826,7 @@
     const lines = [], lineData = [];
     for (let i = 0; i < 24; i++) {
       const u = i / 24 * Math.PI * 2;
-      lineData.push({ u, speed: 0.5 });
+      lineData.push({ u, speed: 1.2 });
       const pos = new Float32Array(150); // 50 points × 3
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -846,7 +846,7 @@
     const linesA = [], lineDataA = [];
     for (let i = 0; i < 16; i++) {
       const u = i / 16 * Math.PI * 2;
-      lineDataA.push({ u, speed: 0.3 });
+      lineDataA.push({ u, speed: 0.8 });
       const pos = new Float32Array(120); // 40 pts × 3
       const geo = new THREE.BufferGeometry();
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -869,7 +869,7 @@
     for (let i = 0; i < pCount; i++) {
       const u  = Math.random() * Math.PI * 2;
       const v0 = Math.random() * Math.PI * 2;
-      const sp = 0.3 + 0.4 * Math.random();
+      const sp = 2.2 + 2.0 * Math.random();
       pState.push({ u, v0, speed: sp });
       const [x, y, z] = torusPoint(u, v0);
       pPos[3*i] = x; pPos[3*i+1] = y; pPos[3*i+2] = z;
