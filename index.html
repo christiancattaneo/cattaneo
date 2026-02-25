@@ -820,25 +820,7 @@
     wireMesh.rotation.x = Math.PI / 2;
     group.add(wireMesh);
 
-    // ── 24 FLOWING ARCS (hK equivalent) ──────────────────────────────────
-    // Colors: amber, deep amber, gold — matching solar palette
-    const lineColors = [0xd97706, 0xc47f0a, 0xf5be3a]; // amber-600, gold, amber-300
-    const lines = [], lineData = [];
-    for (let i = 0; i < 24; i++) {
-      const u = i / 24 * Math.PI * 2;
-      lineData.push({ u, speed: 1.2 });
-      const pos = new Float32Array(150); // 50 points × 3
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-      const mat = new THREE.LineBasicMaterial({
-        color: lineColors[i % 3],
-        transparent: true,
-        opacity: 0.55,
-      });
-      const line = new THREE.Line(geo, mat);
-      lines.push(line);
-      group.add(line);
-    }
+    const lines = [], lineData = []; // arc lines removed
 
     const linesA = [], lineDataA = []; // h0 lines removed (kept hK only)
 
@@ -952,19 +934,6 @@
           const autoQ = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.1 * dt);
           group.quaternion.premultiply(autoQ);
         }
-      }
-
-      // ── Update hK-style lines: 24 fixed-radius arcs ──
-      for (let i = 0; i < lines.length; i++) {
-        const { u, speed } = lineData[i];
-        const pos  = lines[i].geometry.attributes.position.array;
-        const nPts = pos.length / 3;
-        for (let j = 0; j < nPts; j++) {
-          const v = j / nPts * Math.PI * 0.7; // hK sweep: 0.7*PI
-          const [x, y, z] = torusPoint(u, elapsed * speed + v);
-          pos[3*j] = x; pos[3*j+1] = y; pos[3*j+2] = z;
-        }
-        lines[i].geometry.attributes.position.needsUpdate = true;
       }
 
       // ── Update particles ──
