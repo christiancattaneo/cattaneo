@@ -116,9 +116,10 @@
       width: 100%; height: 320px;
       display: block; position: relative; z-index: 1;
       cursor: grab;
+      touch-action: none; /* prevent browser scroll hijack on mobile */
     }
     #torus-canvas:active { cursor: grabbing; }
-    @media (max-width: 480px) { #torus-canvas { height: 220px; } }
+    @media (max-width: 480px) { #torus-canvas { height: 280px; } }
 
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 7px;
@@ -877,28 +878,31 @@
     let dragging = false;
     let prevX = 0, prevY = 0;
 
-    // pointerdown on canvas — start drag + capture pointer so
-    // pointermove/pointerup fire even outside canvas (no pointerleave issue on mobile)
+    // pointerdown on canvas — start drag + capture so pointermove/pointerup
+    // fire on window even outside the canvas; preventDefault stops page scroll
     canvas.addEventListener('pointerdown', e => {
+      e.preventDefault();
       dragging = true;
       prevX = e.clientX; prevY = e.clientY;
       lastQuat.identity();
       canvas.style.cursor = 'grabbing';
       try { canvas.setPointerCapture(e.pointerId); } catch(_) {}
-    });
+    }, { passive: false });
 
-    // pointermove on WINDOW — works on desktop + mobile after capture
+    // pointermove on WINDOW — higher sensitivity on touch (pointer.width > 1 = finger)
     window.addEventListener('pointermove', e => {
       if (!dragging) return;
+      e.preventDefault();
       const dx = e.clientX - prevX;
       const dy = e.clientY - prevY;
-      const qY = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.005 * dx);
-      const qX = new THREE.Quaternion().setFromAxisAngle(xAxis, 0.005 * dy);
+      const sens = (e.pointerType === 'touch') ? 0.012 : 0.005;
+      const qY = new THREE.Quaternion().setFromAxisAngle(yAxis, sens * dx);
+      const qX = new THREE.Quaternion().setFromAxisAngle(xAxis, sens * dy);
       const delta = qY.multiply(qX);
       group.quaternion.premultiply(delta);
       lastQuat.copy(delta);
       prevX = e.clientX; prevY = e.clientY;
-    });
+    }, { passive: false });
 
     // pointerup on WINDOW — catches release anywhere on screen
     window.addEventListener('pointerup', () => {
