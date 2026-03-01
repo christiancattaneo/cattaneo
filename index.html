@@ -835,10 +835,52 @@
     group.quaternion.setFromEuler(new THREE.Euler(0.4, 0, 0));
     scene.add(group);
 
-    // ── WIREFRAME: field structure lines (poloidal circles + toroidal ring) ─
-    // Show 1 outer toroidal boundary + 8 poloidal circulation loops
-    // Poloidal loops show the "through-the-hole" flow path
-    const poloidalCount = 16;
+    // ── FIELD STRUCTURE ───────────────────────────────────────────────────
+
+    // 1. CENTRAL AXIS — the magnetic axis, the "energetic point"
+    // In a tokamak/Tesla toroidal field, the central solenoid axis is the
+    // source point — all field energy emanates from here.
+    // Rendered as a vertical glowing line through the center hole.
+    {
+      const pts = [new THREE.Vector3(0, -2.5, 0), new THREE.Vector3(0, 2.5, 0)];
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 })));
+      // Wider glow halo around the axis
+      const geo2 = new THREE.BufferGeometry().setFromPoints(pts);
+      group.add(new THREE.Line(geo2, new THREE.LineBasicMaterial({ color: 0xfde68a, transparent: true, opacity: 0.3 })));
+    }
+
+    // 2. HELICAL FIELD LINES — traced streamlines showing energy contortion
+    // Each line makes multiple helical winds around the torus.
+    // These are what show the field being "contorted around" the structure.
+    // q = winding number (poloidal turns per toroidal turn)
+    const fieldLineCount = 12;
+    const fieldLineGeos = [];
+    for (let i = 0; i < fieldLineCount; i++) {
+      const phi0  = (i / fieldLineCount) * Math.PI * 2;
+      const q     = 1.618 + i * 0.15; // different winding per line → spread of flux surfaces
+      const steps = 512;
+      const pts   = [];
+      for (let s = 0; s <= steps; s++) {
+        const t   = (s / steps) * Math.PI * 2 * 3; // 3 full toroidal revolutions
+        const phi = phi0 + t;
+        const theta = q * t;
+        const [x, y, z] = fieldPoint(phi, theta);
+        pts.push(new THREE.Vector3(x, y, z));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      // Alternate between bright gold and warm white for visual depth
+      const color = i % 3 === 0 ? 0xffffff : i % 3 === 1 ? 0xfbbf24 : 0xfde68a;
+      const opacity = 0.55 - i * 0.02;
+      const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+      const line = new THREE.Line(geo, mat);
+      fieldLineGeos.push({ line, mat, baseOpacity: opacity });
+      group.add(line);
+    }
+
+    // 3. POLOIDAL LOOPS — show the circulation through the center
+    // Fewer, just 6 — to show the "through center" path clearly
+    const poloidalCount = 6;
     for (let i = 0; i < poloidalCount; i++) {
       const phi = (i / poloidalCount) * Math.PI * 2;
       const pts = [];
@@ -848,34 +890,7 @@
         pts.push(new THREE.Vector3(x, y, z));
       }
       const geo = new THREE.BufferGeometry().setFromPoints(pts);
-      const mat = new THREE.LineBasicMaterial({
-        color: 0xd97706,
-        transparent: true,
-        opacity: 0.22,
-      });
-      group.add(new THREE.Line(geo, mat));
-    }
-    // 1 outer toroidal ring showing the equatorial boundary
-    {
-      const pts = [];
-      for (let j = 0; j <= 128; j++) {
-        const phi = (j / 128) * Math.PI * 2;
-        const [x, y, z] = fieldPoint(phi, 0); // theta=0 → outer equator
-        pts.push(new THREE.Vector3(x, y, z));
-      }
-      const geo = new THREE.BufferGeometry().setFromPoints(pts);
-      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.15 })));
-    }
-    // 1 inner toroidal ring through the hole (theta=π → inner equator)
-    {
-      const pts = [];
-      for (let j = 0; j <= 128; j++) {
-        const phi = (j / 128) * Math.PI * 2;
-        const [x, y, z] = fieldPoint(phi, Math.PI);
-        pts.push(new THREE.Vector3(x, y, z));
-      }
-      const geo = new THREE.BufferGeometry().setFromPoints(pts);
-      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.10 })));
+      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xd97706, transparent: true, opacity: 0.18 })));
     }
 
     const lines = [], lineData = [];
@@ -1006,6 +1021,14 @@
           const autoQ = new THREE.Quaternion().setFromAxisAngle(yAxis, 0.1 * dt);
           group.quaternion.premultiply(autoQ);
         }
+      }
+
+      // ── Pulse field lines — energy intensity oscillation ──
+      for (let i = 0; i < fieldLineGeos.length; i++) {
+        const { mat, baseOpacity } = fieldLineGeos[i];
+        // Each field line pulses at a slightly different frequency
+        const pulse = 0.5 + 0.5 * Math.sin(elapsed * (1.2 + i * 0.15) + i * 0.8);
+        mat.opacity = baseOpacity * (0.5 + 0.6 * pulse);
       }
 
       // ── Update particles — vortex ring / Tesla toroidal flow ──
