@@ -780,7 +780,7 @@
     const scene  = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     // Slight elevation angle like convergence.sh
-    camera.position.set(0, 1.8, 8.5);
+    camera.position.set(0, 1.2, 5.5);
     camera.lookAt(0, 0, 0);
 
     function resize() {
@@ -814,8 +814,8 @@
     // The ratio ω_pol/ω_tor controls the helical winding.
     // Golden ratio → streamlines never close, fill the field ergodically.
 
-    const R_maj = 2.0;
-    const R_min = 0.9;
+    const R_maj = 1.1;  // nearly equal to R_min → hole nearly closes → spherical/apple shape
+    const R_min = 0.95;
 
     // Convert poloidal/toroidal angles → 3D position
     function fieldPoint(phi, theta) {
@@ -835,7 +835,7 @@
     // ── WIREFRAME: field structure lines (poloidal circles + toroidal ring) ─
     // Show 1 outer toroidal boundary + 8 poloidal circulation loops
     // Poloidal loops show the "through-the-hole" flow path
-    const poloidalCount = 8;
+    const poloidalCount = 16;
     for (let i = 0; i < poloidalCount; i++) {
       const phi = (i / poloidalCount) * Math.PI * 2;
       const pts = [];
