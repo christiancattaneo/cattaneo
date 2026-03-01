@@ -780,7 +780,7 @@
     const scene  = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     // Slight elevation angle like convergence.sh
-    camera.position.set(0, 1.2, 5.5);
+    camera.position.set(0, 0.8, 4.0);
     camera.lookAt(0, 0, 0);
 
     function resize() {
@@ -814,8 +814,11 @@
     // The ratio ω_pol/ω_tor controls the helical winding.
     // Golden ratio → streamlines never close, fill the field ergodically.
 
-    const R_maj = 1.1;  // nearly equal to R_min → hole nearly closes → spherical/apple shape
-    const R_min = 0.95;
+    // Horn torus: R_maj < R_min → hole pinches closed → apple/sphere shape
+    // At R_maj=0: sphere. At R_maj=R_min: horn torus (hole just closed).
+    // R_maj=0.35, R_min=1.2 gives the classic toroidal field / apple core look.
+    const R_maj = 0.35;
+    const R_min = 1.2;
 
     // Convert poloidal/toroidal angles → 3D position
     function fieldPoint(phi, theta) {
@@ -883,7 +886,7 @@
     //   φ advances at ω_tor (toroidal)
     //   θ advances at ω_pol (poloidal — the "apple core" circulation)
     // Golden ratio winding → ergodic fill of the whole field
-    const pCount = 6000;
+    const pCount = 12000;
     const pPos   = new Float32Array(pCount * 3);
     const pCol   = new Float32Array(pCount * 3);
     const pState = [];
