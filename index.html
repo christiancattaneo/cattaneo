@@ -791,22 +791,39 @@
       camera.updateProjectionMatrix();
     }
 
-    // ── TOROIDAL FIELD (not a donut — a volumetric energy field) ──────────
-    // Particles flow in helical paths through the VOLUME of the torus.
-    // φ = toroidal angle (around the big ring)
-    // θ = poloidal angle (around the tube cross-section)
-    // rNorm = radial depth [0=core, 1=outer edge] — fills the interior volume
-    // q = safety factor: how many poloidal turns per toroidal turn
-    //     q=golden ratio → field lines never close, fill volume ergodically
-    const R_maj = 2.0;   // major radius (center of hole to center of tube)
-    const R_min = 0.85;  // outer tube radius
+    // ── TOROIDAL VORTEX FIELD (Tesla / vortex ring / smoke ring physics) ───
+    //
+    // A toroidal field is NOT a torus shape with particles on its surface.
+    // It is a FLOW PATTERN — the same pattern as a smoke ring, a vortex ring,
+    // or Tesla's understanding of electromagnetic circulation.
+    //
+    // The flow: particles rise through the center hole (poloidal up),
+    // fountain outward over the top, curl down the outside, gather at the
+    // bottom, and get pulled back up through the center hole.
+    // This creates the distinctive "apple core" / vortex ring appearance.
+    //
+    // TWO simultaneous circulations:
+    //   Poloidal (θ): through the hole, over the top, down the outside, back up
+    //   Toroidal (φ): spinning around the ring axis
+    //
+    // Position on a streamline at parameter t:
+    //   φ(t) = φ₀ + ω_tor · t          (toroidal spin)
+    //   θ(t) = θ₀ + ω_pol · t          (poloidal circulation — the "apple" flow)
+    //   r = R_maj + R_min·cos(θ)        (distance from axis)
+    //
+    // The ratio ω_pol/ω_tor controls the helical winding.
+    // Golden ratio → streamlines never close, fill the field ergodically.
 
-    function fieldPoint(phi, theta, rNorm) {
-      const r = R_min * rNorm;
+    const R_maj = 2.0;
+    const R_min = 0.9;
+
+    // Convert poloidal/toroidal angles → 3D position
+    function fieldPoint(phi, theta) {
+      const r = R_maj + R_min * Math.cos(theta);
       return [
-        (R_maj + r * Math.cos(theta)) * Math.cos(phi),
-        r * Math.sin(theta),
-        (R_maj + r * Math.cos(theta)) * Math.sin(phi),
+        r * Math.cos(phi),
+        R_min * Math.sin(theta),   // poloidal component — this is the "through the hole" flow
+        r * Math.sin(phi),
       ];
     }
 
@@ -815,57 +832,87 @@
     group.quaternion.setFromEuler(new THREE.Euler(0.4, 0, 0));
     scene.add(group);
 
-    // ── WIREFRAME: nested toroidal shells showing field structure ──────────
-    // Three shells at different radial depths (core, mid, outer edge)
-    const shellRadii = [0.25, 0.6, 1.0];
-    const shellOpacity = [0.35, 0.18, 0.10];
-    shellRadii.forEach((rN, idx) => {
-      const shellGeo = new THREE.TorusGeometry(R_maj, R_min * rN, 32, 80);
-      const shellMat = new THREE.MeshBasicMaterial({
-        color: idx === 0 ? 0xfbbf24 : idx === 1 ? 0xd97706 : 0x92400e,
-        wireframe: true,
+    // ── WIREFRAME: field structure lines (poloidal circles + toroidal ring) ─
+    // Show 1 outer toroidal boundary + 8 poloidal circulation loops
+    // Poloidal loops show the "through-the-hole" flow path
+    const poloidalCount = 8;
+    for (let i = 0; i < poloidalCount; i++) {
+      const phi = (i / poloidalCount) * Math.PI * 2;
+      const pts = [];
+      for (let j = 0; j <= 64; j++) {
+        const theta = (j / 64) * Math.PI * 2;
+        const [x, y, z] = fieldPoint(phi, theta);
+        pts.push(new THREE.Vector3(x, y, z));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = new THREE.LineBasicMaterial({
+        color: 0xd97706,
         transparent: true,
-        opacity: shellOpacity[idx],
+        opacity: 0.22,
       });
-      const shell = new THREE.Mesh(shellGeo, shellMat);
-      shell.rotation.x = Math.PI / 2;
-      group.add(shell);
-    });
+      group.add(new THREE.Line(geo, mat));
+    }
+    // 1 outer toroidal ring showing the equatorial boundary
+    {
+      const pts = [];
+      for (let j = 0; j <= 128; j++) {
+        const phi = (j / 128) * Math.PI * 2;
+        const [x, y, z] = fieldPoint(phi, 0); // theta=0 → outer equator
+        pts.push(new THREE.Vector3(x, y, z));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.15 })));
+    }
+    // 1 inner toroidal ring through the hole (theta=π → inner equator)
+    {
+      const pts = [];
+      for (let j = 0; j <= 128; j++) {
+        const phi = (j / 128) * Math.PI * 2;
+        const [x, y, z] = fieldPoint(phi, Math.PI);
+        pts.push(new THREE.Vector3(x, y, z));
+      }
+      const geo = new THREE.BufferGeometry().setFromPoints(pts);
+      group.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.10 })));
+    }
 
-    const lines = [], lineData = []; // arc lines removed
-    const linesA = [], lineDataA = []; // h0 lines removed
+    const lines = [], lineData = [];
+    const linesA = [], lineDataA = [];
 
-    // ── 6000 PARTICLES — helical field line flow through the volume ────────
-    const pCount  = 6000;
-    const pPos    = new Float32Array(pCount * 3);
-    const pCol    = new Float32Array(pCount * 3);
-    const pState  = [];
-    const PHI_GOLD = 1.6180339887; // golden ratio — irrational q fills volume
+    // ── 6000 PARTICLES — streaming along vortex field lines ──────────────
+    // Each particle follows a helical streamline:
+    //   φ advances at ω_tor (toroidal)
+    //   θ advances at ω_pol (poloidal — the "apple core" circulation)
+    // Golden ratio winding → ergodic fill of the whole field
+    const pCount = 6000;
+    const pPos   = new Float32Array(pCount * 3);
+    const pCol   = new Float32Array(pCount * 3);
+    const pState = [];
+    const GOLDEN = 1.6180339887;
 
     for (let i = 0; i < pCount; i++) {
       const phi   = Math.random() * Math.PI * 2;
       const theta = Math.random() * Math.PI * 2;
-      // Weight toward mid-volume — fewer particles at exact core/edge
-      const rNorm = 0.1 + 0.9 * Math.pow(Math.random(), 0.7);
-      // q varies slightly per particle — spread of field line families
-      const q     = PHI_GOLD + (Math.random() - 0.5) * 0.4;
-      // Toroidal speed — inner particles slightly faster (like real plasma)
-      const phi_speed = (0.6 + 0.5 * Math.random()) * (1.0 + 0.3 * (1 - rNorm));
+      // Poloidal speed — the circulation through the hole
+      // Positive = up through center, over top, down outside
+      const w_pol = (0.8 + 0.6 * Math.random());
+      // Toroidal speed — spinning around the ring
+      const w_tor = w_pol / (GOLDEN + (Math.random() - 0.5) * 0.3);
 
-      pState.push({ phi, theta, rNorm, q, phi_speed });
-      const [x, y, z] = fieldPoint(phi, theta, rNorm);
+      pState.push({ phi, theta, w_pol, w_tor });
+      const [x, y, z] = fieldPoint(phi, theta);
       pPos[3*i] = x; pPos[3*i+1] = y; pPos[3*i+2] = z;
 
-      // Color by radial depth: core=bright white-gold, mid=amber, edge=deep amber
-      const hot = 1.0 - rNorm; // 1 at core, 0 at edge
-      if (hot > 0.7) {
-        // Core — hot white-gold
-        pCol[3*i] = 1.0; pCol[3*i+1] = 0.97; pCol[3*i+2] = 0.75;
-      } else if (hot > 0.35) {
-        // Mid — bright gold
+      // Color by poloidal position — hottest at top (theta≈π/2, rising through hole)
+      // cool deep amber on outside (theta≈0), bright gold on inside/top
+      const poloidalHeat = 0.5 + 0.5 * Math.sin(theta); // 0=outside, 1=inside/top
+      if (poloidalHeat > 0.75) {
+        // Hot inner flow — white-gold
+        pCol[3*i] = 1.0; pCol[3*i+1] = 0.97; pCol[3*i+2] = 0.80;
+      } else if (poloidalHeat > 0.4) {
+        // Mid flow — bright gold
         pCol[3*i] = 0.98; pCol[3*i+1] = 0.78; pCol[3*i+2] = 0.20;
       } else {
-        // Edge — deep amber
+        // Outer/cooling flow — deep amber
         pCol[3*i] = 0.85; pCol[3*i+1] = 0.42; pCol[3*i+2] = 0.04;
       }
     }
@@ -958,12 +1005,14 @@
         }
       }
 
-      // ── Update particles — helical toroidal field flow ──
+      // ── Update particles — vortex ring / Tesla toroidal flow ──
+      // θ (poloidal) drives the "apple core" circulation: up through hole, over, down outside
+      // φ (toroidal) drives the spin around the ring axis
       for (let i = 0; i < pCount; i++) {
         const s = pState[i];
-        s.phi   += s.phi_speed * dt;
-        s.theta += s.q * s.phi_speed * dt; // poloidal advances with toroidal (helical)
-        const [x, y, z] = fieldPoint(s.phi, s.theta, s.rNorm);
+        s.theta += s.w_pol * dt;   // poloidal circulation — the defining flow
+        s.phi   += s.w_tor * dt;   // toroidal spin
+        const [x, y, z] = fieldPoint(s.phi, s.theta);
         pPos[3*i] = x; pPos[3*i+1] = y; pPos[3*i+2] = z;
       }
       pGeo.attributes.position.needsUpdate = true;
