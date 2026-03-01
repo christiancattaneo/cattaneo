@@ -780,7 +780,7 @@
     const scene  = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     // Slight elevation angle like convergence.sh
-    camera.position.set(0, 0.8, 4.0);
+    camera.position.set(0, 1.8, 8.5);
     camera.lookAt(0, 0, 0);
 
     function resize() {
@@ -817,8 +817,8 @@
     // Horn torus: R_maj < R_min → hole pinches closed → apple/sphere shape
     // At R_maj=0: sphere. At R_maj=R_min: horn torus (hole just closed).
     // R_maj=0.35, R_min=1.2 gives the classic toroidal field / apple core look.
-    const R_maj = 0.35;
-    const R_min = 1.2;
+    const R_maj = 2.0;
+    const R_min = 0.8;
 
     // Convert poloidal/toroidal angles → 3D position
     function fieldPoint(phi, theta) {
