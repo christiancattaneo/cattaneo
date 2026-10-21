@@ -335,6 +335,7 @@
     }
     .card-link:hover { color: var(--ember); gap: 7px; }
     .card-link svg { width: 12px; height: 12px; }
+    .card-footer-row .card-link { margin-left: auto; }
 
     /* ── FOOTER ── */
     footer {
@@ -377,8 +378,7 @@
   <nav>
     <div class="nav-brand">Christian Cattaneo</div>
     <div class="nav-links">
-      <a href="#products">Products</a>
-      <a href="#tools">Tools</a>
+      <a href="#products">Projects</a>
       <a href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
       <a href="https://x.com/cattaaaneo" target="_blank" class="nav-cta">Follow on X →</a>
     </div>
@@ -397,10 +397,10 @@
     <h1>Full-stack AI<br>engineer &amp; <span class="sol">builder</span></h1>
     <p class="hero-sub">
       Shipping monetized products at the intersection of AI agents,
-      developer tools, and growth automation. 16+ products live.
+      developer tools, and growth automation.
     </p>
     <div class="hero-btns">
-      <a class="btn btn-gold" href="https://maxxer.ai" target="_blank">Maxxer.ai →</a>
+      <a class="btn btn-gold" href="#products">Projects</a>
       <a class="btn btn-outline" href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
       <a class="btn btn-outline" href="https://x.com/cattaaaneo" target="_blank">X / Twitter</a>
     </div>
@@ -410,7 +410,7 @@
   <div class="stats">
     <div class="stats-inner">
       <div class="stat">
-        <span class="stat-val"><span>16</span>+</span>
+        <span class="stat-val"><span>15</span></span>
         <div class="stat-label">Products Shipped</div>
       </div>
       <div class="stat">
@@ -431,328 +431,183 @@
   <!-- MAIN -->
   <main>
 
-    <!-- AI Products -->
+    <!-- Projects -->
     <div class="wrap" id="products">
       <div class="sec-header">
         <span class="sec-ornament"></span>
-        <span class="sec-title">AI Products</span>
-        <div class="sec-line"></div>
-      </div>
-      <div class="grid grid-3">
-
-        <div class="card card-wide" style="animation-delay:.04s">
-          <div class="card-head"><div class="card-icon">🚀</div><div>
-            <div class="card-name">Maxxer</div>
-            <div class="card-domain">maxxer.ai</div>
-          </div></div>
-          <div class="card-desc">The AI growth layer. 14 fully-automated modules — lead research, outreach, content engine, SEO, competitive intel, GEO, ad intelligence, and more. Your entire growth stack, on autopilot.</div>
-          <div class="card-tags">
-            <span class="tag tag-gold">AI Automation</span>
-            <span class="tag tag-sky">Growth</span>
-            <span class="tag tag-gold">Lead Gen</span>
-            <span class="tag">SaaS</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://maxxer.ai" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-        <div class="card" style="animation-delay:.09s">
-          <div class="card-head"><div class="card-icon">🎓</div><div>
-            <div class="card-name">Maxxer Academy</div>
-            <div class="card-domain">maxxer.academy</div>
-          </div></div>
-          <div class="card-desc">Curated agent-ready growth stack for AI founders. 30 tools across 9 categories — ClawHub skills, MCP servers, and direct APIs your AI can actually operate.</div>
-          <div class="card-tags">
-            <span class="tag tag-gold">Agent-Ready</span>
-            <span class="tag tag-sky">MCP</span>
-            <span class="tag">Directory</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://maxxer.academy" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-        <div class="card" style="animation-delay:.14s">
-          <div class="card-head"><div class="card-icon">🤖</div><div>
-            <div class="card-name">CEO</div>
-            <div class="card-domain">Claw Engine Optimization</div>
-          </div></div>
-          <div class="card-desc">Optimize your product for AI agent discovery — beyond SEO and GEO. llms.txt, MCP endpoints, Capability Schema, A2A protocol, and Agent Analytics.</div>
-          <div class="card-tags">
-            <span class="tag tag-purple">OpenClaw</span>
-            <span class="tag tag-sky">MCP</span>
-            <span class="tag">A2A</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-wip"></span> Beta</div>
-            <a class="card-link" href="https://ceo-plum-ten.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-        <div class="card" style="animation-delay:.19s">
-          <div class="card-head"><div class="card-icon">👗</div><div>
-            <div class="card-name">Colette</div>
-            <div class="card-domain">colette.fashion</div>
-          </div></div>
-          <div class="card-desc">AI-powered fashion iOS app. Virtual try-on, curated style collections, AI wardrobe curation, and social shopping — built for the next generation of fashion discovery.</div>
-          <div class="card-tags">
-            <span class="tag tag-ember">iOS</span>
-            <span class="tag tag-purple">AI Vision</span>
-            <span class="tag">Fashion</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://colette.fashion" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-        <div class="card" style="animation-delay:.24s">
-          <div class="card-head"><div class="card-icon">📊</div><div>
-            <div class="card-name">Midas MCP</div>
-            <div class="card-domain">midasmcp.com</div>
-          </div></div>
-          <div class="card-desc">AI-powered development intelligence platform. MCP server with interactive TUI and dashboard — real-time code insights, health monitoring, and agent-driven analysis.</div>
-          <div class="card-tags">
-            <span class="tag tag-sky">MCP</span>
-            <span class="tag tag-green">DevOps</span>
-            <span class="tag">CLI</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://midasmcp.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-        <div class="card" style="animation-delay:.29s">
-          <div class="card-head"><div class="card-icon">⚡</div><div>
-            <div class="card-name">InProd</div>
-            <div class="card-domain">inprod.ai</div>
-          </div></div>
-          <div class="card-desc">Production-ready AI infrastructure. Ship AI-powered features with confidence — deployment tooling, monitoring, and infrastructure for serious AI applications.</div>
-          <div class="card-tags">
-            <span class="tag tag-ember">AI Infra</span>
-            <span class="tag">Production</span>
-            <span class="tag">Next.js</span>
-          </div>
-          <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://inprod.ai" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Developer Tools -->
-    <div class="wrap" id="tools">
-      <div class="sec-header">
-        <span class="sec-ornament"></span>
-        <span class="sec-title">Developer Tools &amp; OSS</span>
+        <span class="sec-title">Projects</span>
         <div class="sec-line"></div>
       </div>
       <div class="grid grid-3">
 
         <div class="card" style="animation-delay:.04s">
-          <div class="card-head"><div class="card-icon">🔑</div><div>
-            <div class="card-name">ipeaky</div>
-            <div class="card-domain">clawhub.com/ipeaky</div>
+          <div class="card-head"><div class="card-icon">◎</div><div>
+            <div class="card-name">Vril</div>
+            <div class="card-domain">vril.app</div>
           </div></div>
-          <div class="card-desc">Secure API key management for AI agents. Keys never touch chat history, command args, or logs — ever. Published to ClawHub v3.1.0 with CI and 36 tests.</div>
-          <div class="card-tags">
-            <span class="tag tag-purple">OpenClaw</span>
-            <span class="tag tag-green">Security</span>
-            <span class="tag tag-sky">ClawHub</span>
-          </div>
+          <div class="card-desc">Hum for ten seconds and the sand draws a Chladni figure, then a read on your morning. Nothing leaves the phone.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
-            <a class="card-link" href="https://github.com/christiancattaneo/ipeaky" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://vril.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.09s">
-          <div class="card-head"><div class="card-icon">🔨</div><div>
-            <div class="card-name">wreckit</div>
-            <div class="card-domain">wreckit-ralph.vercel.app</div>
+        <div class="card" style="animation-delay:.08s">
+          <div class="card-head"><div class="card-icon">☰</div><div>
+            <div class="card-name">ClawLobby</div>
+            <div class="card-domain">clawlobby.com</div>
           </div></div>
-          <div class="card-desc">Bulletproof AI code verification. The agent IS the engine. Six gates: slop scan, type check, mutation testing, property tests, proof bundle, and swarm verification.</div>
-          <div class="card-tags">
-            <span class="tag tag-red">Verification</span>
-            <span class="tag tag-ember">AI Agent</span>
-            <span class="tag">Testing</span>
-          </div>
+          <div class="card-desc">AI agents hire consultant agents here and pay them.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
-            <a class="card-link" href="https://wreckit-ralph.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://clawlobby.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.14s">
-          <div class="card-head"><div class="card-icon">📡</div><div>
-            <div class="card-name">Merlyn</div>
-            <div class="card-domain">merlyn-mcp.vercel.app</div>
+        <div class="card" style="animation-delay:.12s">
+          <div class="card-head"><div class="card-icon">☀</div><div>
+            <div class="card-name">Zorbbrah</div>
+            <div class="card-domain">zorbbrah.com</div>
           </div></div>
-          <div class="card-desc">Local dev coach with MCP server and interactive TUI. AI-powered code analysis, real-time health monitoring, and development intelligence — zero cloud required.</div>
-          <div class="card-tags">
-            <span class="tag tag-sky">MCP</span>
-            <span class="tag">CLI / TUI</span>
-            <span class="tag tag-green">Local AI</span>
-          </div>
+          <div class="card-desc">Golden era training, primal food, and living by the sun.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
-            <a class="card-link" href="https://github.com/christiancattaneo/merlyn" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://zorbbrah.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.19s">
-          <div class="card-head"><div class="card-icon">📏</div><div>
-            <div class="card-name">Slopometer</div>
-            <div class="card-domain">slopometer.com</div>
+        <div class="card" style="animation-delay:.16s">
+          <div class="card-head"><div class="card-icon">△</div><div>
+            <div class="card-name">Hyperborea</div>
+            <div class="card-domain">hyperborea.app</div>
           </div></div>
-          <div class="card-desc">AI-powered code slop scanner. Detects your tech stack, finds AI-generated code issues, and generates actual fixes you can apply. Ship with confidence.</div>
-          <div class="card-tags">
-            <span class="tag tag-ember">Code Quality</span>
-            <span class="tag">Static Analysis</span>
-            <span class="tag">AI</span>
-          </div>
+          <div class="card-desc">Buy a share of an AI agent's revenue.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://slopometer.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://hyperborea.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.20s">
+          <div class="card-head"><div class="card-icon">⌖</div><div>
+            <div class="card-name">Safe and Sound</div>
+            <div class="card-domain">safeandsound.dev</div>
+          </div></div>
+          <div class="card-desc">A public registry of people convicted of murder in the US.</div>
+          <div class="card-footer-row">
+            <a class="card-link" href="https://safeandsound.dev" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
         <div class="card" style="animation-delay:.24s">
-          <div class="card-head"><div class="card-icon">🎯</div><div>
-            <div class="card-name">Chiron</div>
-            <div class="card-domain">chiron.academy</div>
+          <div class="card-head"><div class="card-icon">∿</div><div>
+            <div class="card-name">Slopometer</div>
+            <div class="card-domain">slopometer.com</div>
           </div></div>
-          <div class="card-desc">AI-powered coaching and education platform. Personalized learning paths, AI mentorship, and knowledge assessment — next-generation education infrastructure.</div>
-          <div class="card-tags">
-            <span class="tag tag-purple">AI Coach</span>
-            <span class="tag">Education</span>
-            <span class="tag">Next.js</span>
-          </div>
+          <div class="card-desc">Paste a repo. It finds the slop and writes a fix.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://chiron.academy" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://slopometer.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.29s">
-          <div class="card-head"><div class="card-icon">🌐</div><div>
-            <div class="card-name">Crowbar</div>
-            <div class="card-domain">crowbar.sh</div>
+        <div class="card" style="animation-delay:.28s">
+          <div class="card-head"><div class="card-icon">▣</div><div>
+            <div class="card-name">Fossilize</div>
+            <div class="card-domain">fossilize.sh</div>
           </div></div>
-          <div class="card-desc">Autonomous web penetration testing. Give it a URL, it finds everything exploitable — no manual configuration, no false positives, actionable results every time.</div>
-          <div class="card-tags">
-            <span class="tag tag-red">PenTest</span>
-            <span class="tag">Autonomous</span>
-            <span class="tag tag-ember">Security</span>
-          </div>
+          <div class="card-desc">Documents code from the AST, the tests, and git, and skips anything it cannot prove.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://crowbar.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://fossilize.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- Security -->
-    <div class="wrap" id="security">
-      <div class="sec-header">
-        <span class="sec-ornament"></span>
-        <span class="sec-title">Security</span>
-        <div class="sec-line"></div>
-      </div>
-      <div class="grid grid-3">
-
-        <div class="card card-wide" style="animation-delay:.04s">
-          <div class="card-head"><div class="card-icon">🍍</div><div>
-            <div class="card-name">Pinata Security</div>
-            <div class="card-domain">pinata.sh</div>
+        <div class="card" style="animation-delay:.32s">
+          <div class="card-head"><div class="card-icon">◈</div><div>
+            <div class="card-name">Midas</div>
+            <div class="card-domain">midasmcp.com</div>
           </div></div>
-          <div class="card-desc">AI-powered security scanner that finds vulnerabilities hiding in your codebase. 47 detection categories across security, data integrity, concurrency, and performance. Context-aware scanning adjusts rules based on your project type.</div>
-          <div class="card-tags">
-            <span class="tag tag-red">Security</span>
-            <span class="tag tag-ember">SAST</span>
-            <span class="tag">47 Categories</span>
-            <span class="tag tag-purple">AI</span>
-          </div>
+          <div class="card-desc">An MCP that reads the repo and tells you the next step.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://pinata.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://midasmcp.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.09s">
-          <div class="card-head"><div class="card-icon">🦫</div><div>
-            <div class="card-name">Whackamole</div>
-            <div class="card-domain">whackamole.sh</div>
+        <div class="card" style="animation-delay:.36s">
+          <div class="card-head"><div class="card-icon">⚒</div><div>
+            <div class="card-name">wreckit</div>
+            <div class="card-domain">wreckit.io</div>
           </div></div>
-          <div class="card-desc">Automated penetration testing with verified fixes. Attacks your app, proves vulnerabilities are exploitable, generates fixes, and verifies they actually work.</div>
-          <div class="card-tags">
-            <span class="tag tag-red">PenTest</span>
-            <span class="tag tag-green">Auto-Fix</span>
-            <span class="tag">Verified</span>
-          </div>
+          <div class="card-desc">Runs slop, type, and mutation checks, then writes a proof bundle.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-live"></span> Live</div>
-            <a class="card-link" href="https://whackamole.sh" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://wreckit.io" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- Finance & Research -->
-    <div class="wrap" id="finance">
-      <div class="sec-header">
-        <span class="sec-ornament"></span>
-        <span class="sec-title">Finance &amp; Research</span>
-        <div class="sec-line"></div>
-      </div>
-      <div class="grid grid-3">
-
-        <div class="card card-wide" style="animation-delay:.04s">
-          <div class="card-head"><div class="card-icon">📈</div><div>
-            <div class="card-name">Amalek</div>
-            <div class="card-domain">github.com/christiancattaneo/amalek</div>
+        <div class="card" style="animation-delay:.40s">
+          <div class="card-head"><div class="card-icon">▷</div><div>
+            <div class="card-name">Racer</div>
+            <div class="card-domain">racermaps.com</div>
           </div></div>
-          <div class="card-desc">News-sentiment alpha signal agent for mechanical trading bots. Polymarket integration — scanner, weather pricer, and trader. Generates trading signals from real-time news sentiment analysis. Adversarial-tested: 6/6 attack vectors survived.</div>
-          <div class="card-tags">
-            <span class="tag tag-green">Trading</span>
-            <span class="tag tag-gold">Sentiment AI</span>
-            <span class="tag">Polymarket</span>
-            <span class="tag">Python</span>
-          </div>
+          <div class="card-desc">Times drives you already take and races the map, your best, or a friend's ghost.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
-            <a class="card-link" href="https://github.com/christiancattaneo/amalek" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://racermaps.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
-        <div class="card" style="animation-delay:.09s">
-          <div class="card-head"><div class="card-icon">🥩</div><div>
+        <div class="card" style="animation-delay:.44s">
+          <div class="card-head"><div class="card-icon">✝</div><div>
+            <div class="card-name">Synod</div>
+            <div class="card-domain">synod-eosin.vercel.app</div>
+          </div></div>
+          <div class="card-desc">Readings, saints, and a parish finder for the Russian Orthodox Church Outside of Russia.</div>
+          <div class="card-footer-row">
+            <a class="card-link" href="https://synod-eosin.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.48s">
+          <div class="card-head"><div class="card-icon">◦</div><div>
             <div class="card-name">Primal Diet</div>
-            <div class="card-domain">primaldiet reference</div>
+            <div class="card-domain">theprimaldiet.com</div>
           </div></div>
-          <div class="card-desc">Comprehensive primal diet reference system. Evidence-based nutritional data, food scoring, and meal planning tools for ancestral health optimization.</div>
-          <div class="card-tags">
-            <span class="tag tag-green">Health</span>
-            <span class="tag">Nutrition</span>
-            <span class="tag">Reference</span>
-          </div>
+          <div class="card-desc">Coming soon.</div>
           <div class="card-footer-row">
-            <div class="card-status"><span class="status-dot status-oss"></span> OSS</div>
-            <a class="card-link" href="https://github.com/christiancattaneo/primaldiet" target="_blank">GitHub → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+            <a class="card-link" href="https://theprimaldiet.com" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.52s">
+          <div class="card-head"><div class="card-icon">✎</div><div>
+            <div class="card-name">Cosign</div>
+            <div class="card-domain">cosign.finance</div>
+          </div></div>
+          <div class="card-desc">Invest from $100 in creators and local businesses you know. Opening in Austin.</div>
+          <div class="card-footer-row">
+            <a class="card-link" href="https://cosign.finance" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.56s">
+          <div class="card-head"><div class="card-icon">⌘</div><div>
+            <div class="card-name">CEO</div>
+            <div class="card-domain">ceo-plum-ten.vercel.app</div>
+          </div></div>
+          <div class="card-desc">Puts a product where AI agents can find it and call it.</div>
+          <div class="card-footer-row">
+            <a class="card-link" href="https://ceo-plum-ten.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          </div>
+        </div>
+
+        <div class="card" style="animation-delay:.60s">
+          <div class="card-head"><div class="card-icon">⌗</div><div>
+            <div class="card-name">jimmy</div>
+            <div class="card-domain">jimmy-sage.vercel.app</div>
+          </div></div>
+          <div class="card-desc">Checks row-level security, tenant leaks, and unsafe migrations.</div>
+          <div class="card-footer-row">
+            <a class="card-link" href="https://jimmy-sage.vercel.app" target="_blank">Visit → <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
           </div>
         </div>
 
       </div>
     </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -762,8 +617,6 @@
     </div>
     <div class="footer-links">
       <a href="https://github.com/christiancattaneo" target="_blank">GitHub</a>
-      <a href="https://maxxer.ai" target="_blank">Maxxer</a>
-      <a href="https://maxxer.academy" target="_blank">Academy</a>
       <a href="https://x.com/cattaaaneo" target="_blank">X / Twitter</a>
     </div>
   </footer>
